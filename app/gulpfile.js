@@ -111,7 +111,7 @@ gulp.task('transpile', function () {
 
     var bundler = browserify({
         cache: {}, packageCache: {}, fullPaths: false,
-        paths: [conf.jsSrc],
+        // paths: [conf.jsSrc],
         entries: [conf.jsSrc + entry],
         debug: !isProd,
         detectGlobals: true

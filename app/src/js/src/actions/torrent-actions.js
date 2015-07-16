@@ -1,3 +1,3 @@
-import alt from 'utils/alt';
+import alt from '../alt';
 
 export default alt.generateActions('addTorrent');
