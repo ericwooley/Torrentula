@@ -1,8 +1,21 @@
+Webtorrent app spec
+
 # Mission statement
 Build a chrome app that acts similarly to a download manager, which intercepts link clicks and downloads
 the files using webtorrent, if seeders are available for that file.
 
-This will speedup download times, make content less censorable, and save servers bandwidth.
+# User story
+
+* I want to share a large file quickly, without needing to subscribe to a service.
+* I want to accelerate my downloads by leveraging torrents
+* I want files I host to be censorship-proof
+* I want to be able to stream audio and video to preview the files that I'm in the process of downloading
+* (I want to download torrents through my browser)
+
+# Issues
+
+* Download speed with low number of peers
+* Connection tracking on server
 
 # Intro to web torrent (so were all on the the same page)
 Torrents are peer to peer file sharing. Someone with a file creates a hash of that file and sends it to others.
