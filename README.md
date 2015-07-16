@@ -1,5 +1,3 @@
-Webtorrent app spec
-
 # Mission statement
 Build a chrome app that acts similarly to a download manager, which intercepts link clicks and downloads
 the files using webtorrent, if seeders are available for that file.
