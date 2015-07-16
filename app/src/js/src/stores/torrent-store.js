@@ -14,11 +14,11 @@ class TorrentStore {
     });
 
     this.state = {
-      torrents: []
+      torrents: [{test: 'test'}]
     };
   }
   addTorrent({file}) {
-    client.seed(file)
+    this.state.torrents.push(file);
   }
 }
 

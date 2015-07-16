@@ -3,11 +3,15 @@ import TorrentList from './torrent-list';
 import TorrentActions from '../actions/torrent-actions';
 import ReactInStyle from 'react-in-style';
 class App extends Component {
+  addTorrent() {
+    TorrentActions.addTorrent({test: 'test'});
+  }
   render() {
     return (
 			<div className="tor-app">
         <h3>App</h3>
         <TorrentList />
+        <button onClick={this.addTorrent }>Add torrent</button>
       </div>
 		);
   }

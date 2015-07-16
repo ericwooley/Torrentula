@@ -1,2 +1,2 @@
-import List from './list'
-export default List;
+import TorrentList from './torrent-list'
+export default TorrentList;
