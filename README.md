@@ -1,6 +1,93 @@
+Webtorrent app spec
+
 # Mission statement
 Build a chrome app that acts similarly to a download manager, which intercepts link clicks and downloads
 the files using webtorrent, if seeders are available for that file.
+
+# User story
+
+* I want to share a large file between offices quickly
+* I don't want to subscribe to a service to share a file.
+* I want to speed up my downloads.
+* I want the files I host to be impossible to censor.
+* I want to be able to preview the files that I'm in the process of downloading.
+* I want to be able to download and seed files as easily as possible.
+* (I want to download torrents through my browser)
+
+# Issues
+
+* Download speed with low number of peers
+* Connection tracking on server
+* Browser crash with URL.revokeObjectURL
+* 500MB/2GB size limits
+
+# Features
+
+_Installable Chrome Extension_
+* Extension
+  * Context menu
+  * Magnet links
+  * Icon
+  * (Automatic download interception)
+
+_Installable Chrome App_
+* App
+  * List
+    * Torrent Information Item
+        * Sharing
+        * Download
+        * Information
+          * Peers
+          * Speed
+          * Hash
+          * Name
+          * Size
+        * Remove
+        * Pause
+        * (Preview)
+  * Drop target
+  * Torrent input
+  * Aggregate information
+    * Size
+    * Speed
+    * Number of peers
+
+_Server is backed by Firebase which provides CRUD_
+* Server
+  * Torrent
+    * URL
+    * Hash
+
+## Chrome Extension To-Dos
+
+1. Create icon
+2. Tighten up context menu
+3. Magnet link interception
+
+# Server To-Dos
+
+1. Set up Firebase
+2. Create app interface to query Firebase
+
+# App To-Dos
+
+1. List out all components, create directory structure and file stubs
+2. UI track
+3. Store track
+
+### UI track
+  1. Design App UI
+  2. Stub out UI components
+  3. Style App UI
+
+### Store track
+  1. Firebase integration
+  2. Torrent interface
+  3. App interface
+  4. HTTP downloader store
+    1. Download blob
+    2. Migrate to torrent store
+
 
 # Intro to web torrent (so were all on the the same page)
 Torrents are peer to peer file sharing. Someone with a file creates a hash of that file and sends it to others.
