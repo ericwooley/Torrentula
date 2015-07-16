@@ -2,6 +2,8 @@
 Build a chrome app that acts similarly to a download manager, which intercepts link clicks and downloads
 the files using webtorrent, if seeders are available for that file.
 
+This will speedup download times, make content less censorable, and save servers bandwidth.
+
 # Intro to web torrent (so were all on the the same page)
 Torrents are peer to peer file sharing. Someone with a file creates a hash of that file and sends it to others.
 Those others use the hash to find other peers who have that file, request pieces of the file from each of them,
