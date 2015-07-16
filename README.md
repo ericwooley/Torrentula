@@ -6,16 +6,57 @@ the files using webtorrent, if seeders are available for that file.
 
 # User story
 
-* I want to share a large file quickly, without needing to subscribe to a service.
-* I want to accelerate my downloads by leveraging torrents
-* I want files I host to be censorship-proof
-* I want to be able to stream audio and video to preview the files that I'm in the process of downloading
+* I want to share a large file between offices quickly
+* I don't want to subscribe to a service to share a file.
+* I want to speed up my downloads.
+* I want the files I host to be impossible to censor.
+* I want to be able to preview the files that I'm in the process of downloading.
+* I want to be able to download and seed files as easily as possible.
 * (I want to download torrents through my browser)
 
 # Issues
 
 * Download speed with low number of peers
 * Connection tracking on server
+* Browser crash with URL.revokeObjectURL
+* 500MB/2GB size limits
+
+# Features
+
+_Installable Chrome Extension_
+* Extension
+  * Context menu
+  * Magnet links
+  * Icon
+
+_Installable Chrome App_
+* App
+  * List
+    * Torrent Information Item
+        * Sharing
+        * Download
+        * Information
+          * Peers
+          * Speed
+          * Hash
+          * Name
+          * Size
+        * Remove
+        * Pause
+        * (Preview)
+  * Drop target
+  * Torrent input
+  * Aggregate information
+    * Size
+    * Speed
+    * Number of peers
+
+_Server is backed by Firebase which provides CRUD_
+* Server
+  * Torrent
+    * URL
+    * Hash
+
 
 # Intro to web torrent (so were all on the the same page)
 Torrents are peer to peer file sharing. Someone with a file creates a hash of that file and sends it to others.
