@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import TorrentList from './torrent-list';
 import TorrentActions from '../actions/torrent-actions';
 class App extends Component {
   render() {
     return (
 			<div>
-        This is a demo 2
+        <TorrentList />
       </div>
 		);
   }
