@@ -53,6 +53,7 @@
     "install": "^0.1.8",
     "npm": "^2.11.3",
     "react": "^0.13.3",
+    "react-in-style": "^0.21.0",
     "run-sequence": "^1.0.2",
     "tiny-lr": "^0.1.6",
     "uglifyify": "^3.0.1",
