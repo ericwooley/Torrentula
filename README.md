@@ -28,6 +28,7 @@ _Installable Chrome Extension_
   * Context menu
   * Magnet links
   * Icon
+  * (Automatic download interception)
 
 _Installable Chrome App_
 * App
@@ -56,6 +57,36 @@ _Server is backed by Firebase which provides CRUD_
   * Torrent
     * URL
     * Hash
+
+## Chrome Extension To-Dos
+
+1. Create icon
+2. Tighten up context menu
+3. Magnet link interception
+
+# Server To-Dos
+
+1. Set up Firebase
+2. Create app interface to query Firebase
+
+# App To-Dos
+
+1. List out all components, create directory structure and file stubs
+2. UI track
+3. Store track
+
+### UI track
+  1. Design App UI
+  2. Stub out UI components
+  3. Style App UI
+
+### Store track
+  1. Firebase integration
+  2. Torrent interface
+  3. App interface
+  4. HTTP downloader store
+    1. Download blob
+    2. Migrate to torrent store
 
 
 # Intro to web torrent (so were all on the the same page)
