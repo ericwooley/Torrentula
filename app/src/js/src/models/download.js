@@ -63,7 +63,7 @@ class Download {
 
   setTorrentStats() {
     const torrent = this.torrent
-    return {
+    this.stats = {
       progress : torrent ? (100 * torrent.downloaded / torrent.parsedTorrent.length).toFixed(1) : 0,
       peers: torrent ? torrent.swarm.wires.length : 0,
       downloadSpeed: torrent ? prettyBytes(torrent.swarm.downloadSpeed()) : 0,

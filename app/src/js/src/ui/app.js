@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import DownloadList from './download-list';
+import DownloadStats from './download-stats';
 import ReactInStyle from 'react-in-style';
 
 class App extends Component {
@@ -17,6 +18,10 @@ class App extends Component {
         </div>
 
         <div className="lower-panel">
+          <DownloadStats />
+        </div>
+
+        <div className="file-selector">
         </div>
       </div>
 		);
