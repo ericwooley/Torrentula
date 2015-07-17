@@ -72,6 +72,9 @@ class DownloadStore {
     const {url} = download;
     const fileName = fileNameFromURL(url);
     download.stopDownload();
+    download.method = 'HTTP';
+    download.torrent = null;
+    download.magnetLink = null;
     const urlMD5 = md5(download.url);
     download.startDownloadAsHttp(download.url, urlMD5, (blob) => {
       this.seedBlob(blob, download.name, (torrent, magnetURI) => {

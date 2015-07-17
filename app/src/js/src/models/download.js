@@ -46,8 +46,8 @@ class Download {
     this.fileXhr.responseType = 'blob';
     this.fileXhr.onload = (e) => {
       if (this.fileXhr.status == 200) {
-        const blob = this.fileXhr.response;
-        cb(blob);
+        this.blob = this.fileXhr.response;
+        cb(this.blob);
       }
     };
     this.fileXhr.onreadystatechange = () => {
@@ -74,12 +74,12 @@ class Download {
   }
 
   saveFile() {
-    if (this.method === 'TORRENT' && this.torrent) {
-      chrome.fileSystem.chooseEntry({type: 'saveFile', suggestedName: this.torrent.files[0].name}, (fileEntry) => {
-        fileEntry.createWriter((fileWriter) => {
-          fileWriter.onerror = (e) => {
-            console.log('Write failed: ' + e);
-          };
+    chrome.fileSystem.chooseEntry({type: 'saveFile', suggestedName: this.name}, (fileEntry) => {
+      fileEntry.createWriter((fileWriter) => {
+        fileWriter.onerror = (e) => {
+          console.log('Write failed: ' + e);
+        };
+        if (this.method === 'TORRENT' && this.torrent) {
           this.torrent.files[0].getBuffer((err, buffer) => {
             console.log('got buffer');
             if (err) {
@@ -92,13 +92,16 @@ class Download {
             const blob = new Blob([buffer], blobMeta);
             fileWriter.write(blob);
           });
-        });
+        } else if(this.method === 'HTTP' && this.blob) {
+          fileWriter.write(this.blob);
+        }
       });
-    }
+    });
+
   }
 
   switchToTorrentMode(torrent) {
-    console.log(torrent);
+    this.blob = null;
     this.torrent = torrent;
     this.magnetLink = torrent.magnetURI;
     this.method = 'TORRENT';
