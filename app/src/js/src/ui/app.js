@@ -18,7 +18,7 @@ class App extends Component {
         </div>
 
         <div className="lower-panel">
-          <DownloadStats />
+          
         </div>
 
         <div className="file-selector">
