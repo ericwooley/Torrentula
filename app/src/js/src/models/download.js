@@ -22,9 +22,11 @@ class Download {
     this.stats = {};
   }
 
-  killTorrent() {
+  stopDownload() {
     if (this.method === 'TORRENT' && this.torrent) {
       this.torrent.client.remove(this.torrent);
+    } else {
+      this.fileXhr.abort();
     }
   }
 
@@ -39,21 +41,21 @@ class Download {
     }
     headerXhr.send();
 
-    const fileXhr = new XMLHttpRequest();
-    fileXhr.open('GET', url, true);
-    fileXhr.responseType = 'blob';
-    fileXhr.onload = (e) => {
-      if (fileXhr.status == 200) {
-        const blob = fileXhr.response;
+    this.fileXhr = new XMLHttpRequest();
+    this.fileXhr.open('GET', url, true);
+    this.fileXhr.responseType = 'blob';
+    this.fileXhr.onload = (e) => {
+      if (this.fileXhr.status == 200) {
+        const blob = this.fileXhr.response;
         cb(blob);
       }
     };
-    fileXhr.onreadystatechange = () => {
-      if (fileXhr.readyState === 2) {
+    this.fileXhr.onreadystatechange = () => {
+      if (this.fileXhr.readyState === 2) {
         this.startTime = Date.now();
       }
     }
-    fileXhr.onprogress = e => {
+    this.fileXhr.onprogress = e => {
       if (e.lengthComputable) {
 
         this.progress = (e.loaded / e.total) * 100;
@@ -68,7 +70,7 @@ class Download {
 
       }
     }
-    fileXhr.send();
+    this.fileXhr.send();
   }
 
   saveFile() {
