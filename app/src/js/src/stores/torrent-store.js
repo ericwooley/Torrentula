@@ -12,6 +12,28 @@ function fileNameFromURL(url) {
   return url.split('\\').pop().split('/').pop();
 }
 
+class Download {
+  constructor({method, url, magnetLink, torrent, progress, name}) {
+    if (!name) {
+      throw new Error('Name is required');
+    }
+    if (!method) {
+      throw new Error('Method is required');
+    }
+    if (!url) {
+      throw new Error('url is required');
+    }
+    this.method = method;
+    this.url = url;
+    this.magnetLink = magnetLink;
+    this.torrent = torrent;
+    this.name = name;
+    this.progress = progress;
+  }
+}
+
+
+
 chrome.runtime.getBackgroundPage(main);
 class TorrentStore {
   constructor() {
@@ -20,30 +42,31 @@ class TorrentStore {
     });
 
     this.state = {
-      torrents: []
+      downloads: []
     };
   }
   // Bound functions
   addTorrentFromUrl({url = 'https://www.petfinder.com/wp-content/uploads/2012/11/140272627-grooming-needs-senior-cat-632x475.jpg'}) {
     const urlMD5 = md5(url);
     fb.child(urlMD5).on('value', (snapshot) => {
-      const hashFromServer = snapshot.val();
-      if (hashFromServer) {
-        this.addTorrentFromHash({hashFromServer});
+      const magnetLink = snapshot.val();
+      if (magnetLink) {
+        this.addTorrentFromHash({magnetLink});
       } else {
         this.downloadUrlAsBlob({url, urlMD5});
       }
     }, (errorObject) => {
       console.log('The read failed: ' + errorObject.code);
     });
-
   }
 
-
   // Non-bound functions
-  addTorrentFromHash({hash}) {
-    client.add(hash, (torrent) => {
-      this.state.torrents.push(torrent);
+  addTorrentFromHash({magnetLink}) {
+    console.log('got hash', magnetLink);
+    client.add(magnetLink, (torrent) => {
+      console.log('downloading torrent from hash', this.state.downloads, magnetLink);
+      this.state.downloads.push({torrent});
+      this.emitChange();
     });
   }
   downloadUrlAsBlob({url, urlMD5}) {
@@ -52,11 +75,11 @@ class TorrentStore {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
     xhr.responseType = 'blob';
-    xhr.onload = function(e) {
-      if (this.status == 200) {
-        const myBlob = this.response;
-        self.seedBlob(myBlob, fileName, (torrentHash) => {
-          self.saveURLwithHash(urlMD5, torrentHash)
+    xhr.onload = (e) => {
+      if (xhr.status == 200) {
+        const myBlob = xhr.response;
+        self.seedBlob(myBlob, fileName, (magnetURI) => {
+          self.saveURLwithHash(urlMD5, magnetURI)
         });
       }
     };
@@ -72,10 +95,10 @@ class TorrentStore {
       }
       buffer.name = fileName;
       client.seed(buffer, (torrent) => {
-        const torrentHash = torrent.infoHash;
-        console.log('torrentHash', torrent, torrentHash);
-        this.state.torrents.push(torrent);
-        cb(torrentHash);
+        const magnetLink = torrent.magnetURI;
+        console.log('torrentHash', this.state.downloads, torrent, magnetLink);
+        this.state.downloads.push({torrent, magnetLink, method: 'TORRENT', name: fileName});
+        cb(magnetURI);
       })
     });
   }
