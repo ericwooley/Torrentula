@@ -25,7 +25,7 @@ class Download {
   stopDownload() {
     if (this.method === 'TORRENT' && this.torrent) {
       this.torrent.client.remove(this.torrent);
-    } else {
+    } else if (this.method === 'HTTP' && this.fileXhr) {
       this.fileXhr.abort();
     }
   }
