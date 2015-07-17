@@ -79,7 +79,7 @@ class DownloadItem extends Component {
 
     return (
       <div className='item'>
-        <div className='progress-bar' style={{
+        <div className={`progress-bar ${this.state.completed ? "completed" : ""}`} style={{
             width: this.state.progress + '%',
             backgroundColor: this.getProgressBarColor()
           }} />

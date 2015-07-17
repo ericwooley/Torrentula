@@ -1,0 +1,21 @@
+$progress-bar-incomplete-color: $transparent-green;
+$progress-bar-complete-color: $translucent-green;
+
+.item-stats {
+  display: block;
+  position: relative;
+  z-index: 2;
+
+  @include clear();
+}
+
+.progress-bar {
+  z-index: 1;
+  background-color: $progress-bar-incomplete-color;
+
+  @include transition(background-color 0.3s ease-out);
+
+  &.completed {
+    background-color: $progress-bar-complete-color;
+  }
+}

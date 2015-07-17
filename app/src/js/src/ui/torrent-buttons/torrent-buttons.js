@@ -15,7 +15,7 @@ class TorrentButtons extends Component {
           {
             this.props.info.completed ?
               <button className='button-download' onClick={() => this.props.download.saveFile() }><i className='icon-down-circled'></i></button> :
-              <button className='button-revert' onClick={() => TorrentActions.downloadWithHttp(this.props.download)}><i className='icon-arrows-cw'></i></button>
+              <button className='button-revert' onClick={() => TorrentActions.downloadWithHttp(this.props.download)}><i className='icon-link'></i></button>
           }
 
           <button className='button-clear' onClick={() => TorrentActions.clearDownload(this.props.download)}><i className='icon-cancel-circled'></i></button>

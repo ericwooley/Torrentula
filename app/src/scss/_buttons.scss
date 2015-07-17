@@ -43,6 +43,6 @@ $switch-dl-type-button-color: $mid-green;
   @include basic-button($cancel-button-color);
 }
 
-.button-switch-dl-type {
+.button-revert {
   @include basic-button($switch-dl-type-button-color);
 }
