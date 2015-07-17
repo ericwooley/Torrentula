@@ -1,5 +1,5 @@
 import alt from '../alt';
-import TorrentActions from '../actions/torrent-actions';
+import DownloadActions from '../actions/download-actions';
 import md5 from 'md5';
 import blobToBuffer from 'blob-to-buffer';
 import Download from '../models/download';
@@ -37,9 +37,9 @@ chrome.runtime.getBackgroundPage(main);
 class DownloadStore {
   constructor() {
     this.bindListeners({
-      addTorrentFromUrl: TorrentActions.addDownload,
-      clearDownload: TorrentActions.clearDownload,
-      downloadWithHttp: TorrentActions.downloadWithHttp
+      addTorrentFromUrl: DownloadActions.addDownload,
+      clearDownload: DownloadActions.clearDownload,
+      downloadWithHttp: DownloadActions.downloadWithHttp
     });
     chrome.runtime.onMessageExternal.addListener((url, sender, sendResponse) => {
       this.addTorrentFromUrl({url});
@@ -56,6 +56,7 @@ class DownloadStore {
   addTorrentFromUrl({url}) {
     const urlMD5 = md5(url);
     fb.child(urlMD5).once('value', (snapshot) => {
+      console.log('starting download');
       const magnetLink = snapshot.val();
       if (magnetLink) {
         this.addTorrentFromHash({magnetLink, url});
@@ -67,18 +68,21 @@ class DownloadStore {
     });
   }
 
-  downloadWithHttp(download) {
-    console.log('switching to http');
-    download.killTorrent();
-    download.method = 'HTTP';
-    download.torrent = null;
-    download.magnetLink = null;
+  downloadWithHttp(dl) {
+    const {url} = dl;
+    const fileName = fileNameFromURL(url);
+    dl.killTorrent();
+    this.removeDownload(dl);
+    const download = new Download({url, name: fileName, method: 'HTTP'});
+    this.state.downloads.push(download);
+    this.emitChange();
     const urlMD5 = md5(download.url);
-    download.startDownloadAsHttp(download.url, urlMD5, blob => {
+    download.startDownloadAsHttp(download.url, urlMD5, (blob) => {
       this.seedBlob(blob, download.name, (torrent, magnetURI) => {
-        download.switchToTorrentMode(torrent);
-        this.emitChange();
-        // this.saveURLwithHash(urlMD5, magnetURI)
+        torrent.on('wire', () =>{
+          download.switchToTorrentMode(torrent);
+          this.emitChange();
+        })
       });
     });
   }
