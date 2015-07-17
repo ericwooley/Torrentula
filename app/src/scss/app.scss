@@ -7,3 +7,8 @@
 @import 'buttons';
 @import 'columns';
 @import 'item';
+
+body {
+  overflow: scroll;
+  padding-bottom: 20px;
+}

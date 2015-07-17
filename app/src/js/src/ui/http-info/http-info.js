@@ -13,7 +13,7 @@ class HttpInfo extends Component {
         <div className='col small-info'>-</div>
         <div className='col small-info'>{this.props.info.downloadSpeed}</div>
         <div className='col small-info'>-</div>
-        <div className='col'><HttpButtons {...this.props} /> </div>
+        <div className='col buttons-col'><HttpButtons {...this.props} /> </div>
       </span>
     );
   }
