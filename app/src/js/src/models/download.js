@@ -1,5 +1,5 @@
 import prettyBytes from 'pretty-bytes';
-
+import mimeType from './mime-type';
 class Download {
   constructor({method, url, magnetLink, torrent, progress, name, size = 0, downloadSpeed = 0}) {
     if (!name) {
@@ -24,9 +24,10 @@ class Download {
 
   killTorrent() {
     if (this.method === 'TORRENT' && this.torrent) {
-      torrent.remove();
+      this.torrent.client.remove(this.torrent);
     }
   }
+
 
   startDownloadAsHttp(url, urlMD5, cb) {
     console.log('downloading blob', url);
@@ -40,6 +41,31 @@ class Download {
       }
     };
     xhr.send();
+  }
+
+
+  saveFile() {
+    if (this.method === 'TORRENT' && this.torrent) {
+      chrome.fileSystem.chooseEntry({type: 'saveFile', suggestedName: this.torrent.files[0].name}, (fileEntry) => {
+        fileEntry.createWriter((fileWriter) => {
+          fileWriter.onerror = (e) => {
+            console.log('Write failed: ' + e);
+          };
+          this.torrent.files[0].getBuffer((err, buffer) => {
+            console.log('got buffer');
+            if (err) {
+              console.log('got err', err);
+              throw err;
+            }
+            console.log('got to there');
+            console.log({type: mimeType(this.torrent.files[0].name)}, this.torrent.files[0].name)
+            const blobMeta = {type: mimeType(this.torrent.files[0].name)};
+            const blob = new Blob([buffer], blobMeta);
+            fileWriter.write(blob);
+          });
+        });
+      });
+    }
   }
 
   switchToTorrentMode(torrent) {

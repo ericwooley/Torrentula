@@ -49,7 +49,7 @@ class DownloadStore {
   }
   clearDownload(download) {
     download.killTorrent();
-    removeDownload(download);
+    this.removeDownload(download);
   }
   // Bound functions
   addTorrentFromUrl({url}) {

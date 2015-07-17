@@ -21,7 +21,9 @@ class DownloadItem extends Component {
 
     this.startUpdatingStats();
   }
-
+  componentWillUnmount() {
+    cancelAnimationFrame(this.interval);
+  }
   //Render loop
   startUpdatingStats() {
     this.interval = requestAnimationFrame(this.tick.bind(this));
@@ -34,7 +36,7 @@ class DownloadItem extends Component {
     });
 
     isTorrent ? this.updateTorrentStats() : this.updateHttpStats();
-    requestAnimationFrame(this.tick.bind(this));
+    this.interval = requestAnimationFrame(this.tick.bind(this));
   }
 
   updateTorrentStats() {
