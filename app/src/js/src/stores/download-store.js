@@ -97,6 +97,7 @@ class DownloadStore {
     //Move to download
     const download = new Download({url, name: fileName, method: 'HTTP'});
     this.state.downloads.push(download);
+    this.emitChange();
 
     download.startDownloadAsHttp(url, urlMD5, blob => {
       this.seedBlob(blob, fileName, (torrent, magnetURI) => {

@@ -4,13 +4,21 @@ import ReactInStyle from 'react-in-style';
 
 class TorrentInfo extends Component {
 
+  getMagnetLink() {
+    return this.props.download.torrent ? this.props.download.magnetLink : 'Loading';
+  }
+
+  getHash() {
+    return this.props.download.torrent ? this.props.download.torrent.infoHash : 'Loading';
+  }
+
   render() {
     return (
       <div className='item-stats'>
 
         <div className='meta'>
-          <div className='magnet'>Magnet: {this.props.download.magnetLink}</div>
-          <div className='hash'>Hash: {this.props.download.torrent.infoHash}</div>
+          <div className='magnet'>Magnet: {this.getMagnetLink()}</div>
+          <div className='hash'>Hash: {this.getHash()}</div>
         </div>
 
         <div className='stats'>
