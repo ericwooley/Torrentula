@@ -27,14 +27,18 @@ class AddTorrent extends Component {
       else read(index)
     });
     read(index);
-
-
+  }
+  addTorrentFromHash(e) {
+    const hash = e.target.value
+    if (hash.length === 40) {
+      DownloadActions.downloadHash(hash);
+    }
   }
   render() {
     return (
 			<div className="add-torrent">
         <input type="file" onChange={this.addTorrentFileFromFile} />
-        <input type="text" />
+        <input type="text" onChange={this.addTorrentFromHash} />
       </div>
 		);
   }

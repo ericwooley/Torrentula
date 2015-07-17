@@ -39,6 +39,7 @@ class DownloadStore {
     this.bindListeners({
       addTorrentFromUrl: DownloadActions.addDownload,
       addTorrentFromFile: DownloadActions.downloadBlob,
+      addTorrentFromHash: DownloadActions.downloadHash,
       clearDownload: DownloadActions.clearDownload,
       downloadWithHttp: DownloadActions.downloadWithHttp
     });
@@ -63,13 +64,25 @@ class DownloadStore {
       })
     });
   }
+  addTorrentFromHash(hash) {
+    console.log('got hash');
+    const dl = new Download({name: `Loading torrent ${hash}`, method: 'TORRENT'});
+    this.state.downloads.push(dl);
+    this.emitChange();
+    client.add(hash, (torrent) => {
+      dl.name = torrent.name;
+      dl.switchToTorrentMode(torrent);
+      this.emitChange();
+    });
+
+  }
   addTorrentFromUrl({url}) {
     const urlMD5 = md5(url);
     fb.child(urlMD5).once('value', (snapshot) => {
       console.log('starting download');
       const magnetLink = snapshot.val();
       if (magnetLink) {
-        this.addTorrentFromHash({magnetLink, url});
+        this.addTorrentFromMagnetLink({magnetLink, url});
       } else {
         this.downloadUrlAsBlob({url, urlMD5});
       }
@@ -109,7 +122,7 @@ class DownloadStore {
   }
 
   // Non-bound functions
-  addTorrentFromHash({magnetLink, url}) {
+  addTorrentFromMagnetLink({magnetLink, url}) {
     console.log('downloading magnet link', magnetLink);
     const name = parseQuery(magnetLink).dn;
     const dl = new Download({name, method: 'TORRENT', url});
