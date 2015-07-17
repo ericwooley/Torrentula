@@ -68,14 +68,10 @@ class DownloadStore {
     });
   }
 
-  downloadWithHttp(dl) {
-    const {url} = dl;
+  downloadWithHttp(download) {
+    const {url} = download;
     const fileName = fileNameFromURL(url);
-    dl.killTorrent();
-    this.removeDownload(dl);
-    const download = new Download({url, name: fileName, method: 'HTTP'});
-    this.state.downloads.push(download);
-    this.emitChange();
+    download.stopDownload();
     const urlMD5 = md5(download.url);
     download.startDownloadAsHttp(download.url, urlMD5, (blob) => {
       this.seedBlob(blob, download.name, (torrent, magnetURI) => {
