@@ -12,6 +12,28 @@ function fileNameFromURL(url) {
   return url.split('\\').pop().split('/').pop();
 }
 
+class Download {
+  constructor({method, url, magnetLink, torrent, progress, name}) {
+    if (!name) {
+      throw new Error('Name is required');
+    }
+    if (!method) {
+      throw new Error('Method is required');
+    }
+    if (!url) {
+      throw new Error('url is required');
+    }
+    this.method = method;
+    this.url = url;
+    this.magnetLink = magnetLink;
+    this.torrent = torrent;
+    this.name = name;
+    this.progress = progress;
+  }
+}
+
+
+
 chrome.runtime.getBackgroundPage(main);
 class TorrentStore {
   constructor() {
@@ -20,7 +42,7 @@ class TorrentStore {
     });
 
     this.state = {
-      torrents: []
+      downloads: []
     };
   }
   // Bound functions
@@ -42,8 +64,8 @@ class TorrentStore {
   addTorrentFromHash({magnetLink}) {
     console.log('got hash', magnetLink);
     client.add(magnetLink, (torrent) => {
-      console.log('downloading torrent from hash', this.state.torrents, magnetLink);
-      this.state.torrents.push(torrent);
+      console.log('downloading torrent from hash', this.state.downloads, magnetLink);
+      this.state.downloads.push({torrent});
       this.emitChange();
     });
   }
@@ -67,16 +89,15 @@ class TorrentStore {
     fb.child(urlMD5).set(torrentHash);
   }
   seedBlob(blob, fileName, cb) {
-
     blobToBuffer (blob, (err, buffer) => {
       if (err) {
         throw err;
       }
       buffer.name = fileName;
       client.seed(buffer, (torrent) => {
-        const {magnetURI} = torrent;
-        console.log('torrentHash', this.state.torrents, torrent, magnetURI);
-        this.state.torrents.push(torrent);
+        const magnetLink = torrent.magnetURI;
+        console.log('torrentHash', this.state.downloads, torrent, magnetLink);
+        this.state.downloads.push({torrent, magnetLink, method: 'TORRENT', name: fileName});
         cb(magnetURI);
       })
     });

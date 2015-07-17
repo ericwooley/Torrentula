@@ -22,7 +22,7 @@ class List extends Component {
   }
 
   renderItems() {
-    return this.props.torrents.map((torrent, index) => <TorrentItem key={`${index}`} />);
+    return this.props.downloads.map((torrent, index) => <TorrentItem key={`${index}`} />);
   }
   render() {
     console.log('got props', this.props);
