@@ -24,9 +24,10 @@ class Download {
 
   killTorrent() {
     if (this.method === 'TORRENT' && this.torrent) {
-      torrent.remove();
+      this.torrent.client.remove(this.torrent);
     }
   }
+
   saveFile() {
     if (this.method === 'TORRENT' && this.torrent) {
       chrome.fileSystem.chooseEntry({type: 'saveFile', suggestedName: this.torrent.files[0].name}, (fileEntry) => {
