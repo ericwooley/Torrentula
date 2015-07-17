@@ -24,7 +24,7 @@ class Download {
 
   stopDownload() {
     if (this.method === 'TORRENT' && this.torrent) {
-      this.torrent.client.remove(this.torrent);
+      this.torrent.destroy();
     } else if (this.method === 'HTTP' && this.fileXhr) {
       this.fileXhr.abort();
     }
@@ -98,10 +98,10 @@ class Download {
   }
 
   switchToTorrentMode(torrent) {
+    console.log(torrent);
     this.torrent = torrent;
     this.magnetLink = torrent.magnetURI;
     this.method = 'TORRENT';
-    this.progress = null;
   }
 }
 export default Download;

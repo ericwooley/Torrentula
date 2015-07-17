@@ -1,6 +1,6 @@
 //Contains name, hash, progress, stats
 import React, { Component } from 'react';
-import TorrentActions from '../../actions/torrent-actions';
+import TorrentActions from '../../actions/download-actions';
 import ReactInStyle from 'react-in-style';
 import prettyBytes from 'pretty-bytes';
 
@@ -51,11 +51,11 @@ class DownloadItem extends Component {
     const torrent = this.props.download.torrent;
     return {
       progress : (torrent && torrent.parsedTorrent) ? (100 * torrent.downloaded / torrent.parsedTorrent.length).toFixed(1) : 0,
-      peers: torrent ? torrent.swarm.wires.length : 0,
-      downloadSpeed: torrent ? prettyBytes(torrent.swarm.downloadSpeed()) : 0,
-      uploadSpeed: torrent ? prettyBytes(torrent.swarm.uploadSpeed()) : 0,
-      completed: torrent ? (torrent.downloaded / torrent.parsedTorrent.length) === 1 : false,
-      size: torrent ? prettyBytes(torrent.files[0].length) : 0
+      peers: torrent && torrent.swarm? torrent.swarm.wires.length : 0,
+      downloadSpeed: torrent && torrent.swarm? prettyBytes(torrent.swarm.downloadSpeed()) : 0,
+      uploadSpeed: torrent && torrent.swarm? prettyBytes(torrent.swarm.uploadSpeed()) : 0,
+      completed: (torrent && torrent.parsedTorrent) ? (torrent.downloaded / torrent.parsedTorrent.length) === 1 : false,
+      size: torrent && torrent.files[0]? prettyBytes(torrent.files[0].length) : 0
     };
   }
 
@@ -65,7 +65,7 @@ class DownloadItem extends Component {
       size: download.size ? prettyBytes(download.size) : 0,
       progress: download.progress ? download.progress : 0,
       downloadSpeed: download.downloadSpeed ? prettyBytes(download.downloadSpeed) + '/s' : 0,
-      completed: download.size && download.progress ? (download.progress / download.size) === 1 : false
+      completed: download.size && download.progress ? (download.progress === 100) : false
     }
   }
 
@@ -78,6 +78,7 @@ class DownloadItem extends Component {
   }
 
   render() {
+
     return (
       <div className='item'>
         <div className='progress-bar' style={

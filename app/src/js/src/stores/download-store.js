@@ -1,5 +1,5 @@
 import alt from '../alt';
-import TorrentActions from '../actions/torrent-actions';
+import DownloadActions from '../actions/download-actions';
 import md5 from 'md5';
 import blobToBuffer from 'blob-to-buffer';
 import Download from '../models/download';
@@ -37,8 +37,9 @@ chrome.runtime.getBackgroundPage(main);
 class DownloadStore {
   constructor() {
     this.bindListeners({
-      addTorrentFromUrl: TorrentActions.addDownload,
-      clearDownload: TorrentActions.clearDownload
+      addTorrentFromUrl: DownloadActions.addDownload,
+      clearDownload: DownloadActions.clearDownload,
+      downloadWithHttp: DownloadActions.downloadWithHttp
     });
     chrome.runtime.onMessageExternal.addListener((url, sender, sendResponse) => {
       this.addTorrentFromUrl({url});
@@ -55,6 +56,7 @@ class DownloadStore {
   addTorrentFromUrl({url}) {
     const urlMD5 = md5(url);
     fb.child(urlMD5).once('value', (snapshot) => {
+      console.log('starting download');
       const magnetLink = snapshot.val();
       if (magnetLink) {
         this.addTorrentFromHash({magnetLink, url});
@@ -63,6 +65,25 @@ class DownloadStore {
       }
     }, (errorObject) => {
       console.log('The read failed: ' + errorObject.code);
+    });
+  }
+
+  downloadWithHttp(dl) {
+    const {url} = dl;
+    const fileName = fileNameFromURL(url);
+    dl.killTorrent();
+    this.removeDownload(dl);
+    const download = new Download({url, name: fileName, method: 'HTTP'});
+    this.state.downloads.push(download);
+    this.emitChange();
+    const urlMD5 = md5(download.url);
+    download.startDownloadAsHttp(download.url, urlMD5, (blob) => {
+      this.seedBlob(blob, download.name, (torrent, magnetURI) => {
+        torrent.on('wire', () =>{
+          download.switchToTorrentMode(torrent);
+          this.emitChange();
+        })
+      });
     });
   }
 
@@ -76,7 +97,6 @@ class DownloadStore {
     }
     this.state.downloads = newDownloads;
     this.emitChange();
-
   }
 
   // Non-bound functions
@@ -92,9 +112,9 @@ class DownloadStore {
       this.emitChange();
     });
   }
-  downloadUrlAsBlob({url, urlMD5}) {
+
+  downloadUrlAsBlob({url, urlMD5 = md5(url)}) {
     const fileName = fileNameFromURL(url);
-    //Move to download
     const download = new Download({url, name: fileName, method: 'HTTP'});
     this.state.downloads.push(download);
     this.emitChange();

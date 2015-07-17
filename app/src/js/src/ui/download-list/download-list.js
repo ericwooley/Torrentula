@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import connectToStores from 'alt/utils/connectToStores';
-import TorrentActions from '../../actions/torrent-actions';
+import TorrentActions from '../../actions/download-actions';
 import ReactInStyle from 'react-in-style';
 import DownloadItem from '../download-item';
 import DownloadStore from '../../stores/download-store';
