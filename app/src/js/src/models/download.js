@@ -29,6 +29,12 @@ class Download {
     this.startCollectingStats();
   }
 
+  killTorrent() {
+    if (this.method === 'TORRENT' && this.torrent) {
+      torrent.remove();
+    }
+  }
+
   switchToTorrentMode(torrent) {
     this.torrent = torrent;
     this.magnetLink = torrent.magnetURI;
