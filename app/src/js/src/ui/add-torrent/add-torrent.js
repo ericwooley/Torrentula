@@ -38,7 +38,7 @@ class AddTorrent extends Component {
     return (
 			<div className="add-torrent">
         <input type="file" onChange={this.addTorrentFileFromFile} />
-        <input type="text" onChange={this.addTorrentFromHash} />
+        <input type="text" placeholder='paste file hash' onChange={this.addTorrentFromHash} />
       </div>
 		);
   }
@@ -47,13 +47,14 @@ class AddTorrent extends Component {
 AddTorrent.prototype.displayName = 'AddTorrent';
 
 const Style = {
-  backgroundColor: 'rgb(250, 250, 250)',
-  width: '200px',
+  color: '#fff',
+  padding: '15px',
+  background: '#555',
+  borderRadius: '2px',
+  minWidth: '200px',
   position: 'fixed',
-  padding: '10px',
-  top: 0,
-  right: 0,
-  border: '0 0 1px 1px dashed black'
+  top: '15px',
+  right: '15px'
 };
 
 ReactInStyle.add(Style, '.add-torrent');

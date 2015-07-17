@@ -17,7 +17,7 @@ class App extends Component {
 			<div className="tor-app">
         <AddTorrent />
         <div className="header-panel">
-          <h3>Torentilla</h3>
+          <h3>LOGO</h3>
           <div className="tagline">A delicious torrent wrapper for your file transfers</div>
         </div>
 
@@ -39,9 +39,16 @@ class App extends Component {
 App.prototype.displayName = 'App';
 
 const AppStyle = {
-  backgroundColor: 'rgb(100, 100, 100)',
+  '.header-panel': {
+    padding: '30px',
+    background: '#333',
+    color: 'rgb(200, 200, 200)'
+  },
+  // backgroundColor: 'rgb(100, 100, 100)',
   width: '100%',
-  height: '100%'
+  height: '100%',
+  margin: 0,
+  padding: 0
 };
 ReactInStyle.add(AppStyle, '.tor-app');
 
