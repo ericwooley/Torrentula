@@ -1,22 +1,20 @@
 //All stats
 import React, { Component } from 'react';
 import ReactInStyle from 'react-in-style';
+import HttpButtons from '../http-buttons';
 
 class HttpInfo extends Component {
 
   render() {
     return (
-      <div className='item-stats'>
-
-        <div className='meta'>
-          <div className='size'>Size: {this.props.info.size}</div>
-        </div>
-
-        <div className='stats'>
-          <div className='speed'>Download Speed: {this.props.info.downloadSpeed}</div>
-        </div>
-
-      </div>
+      <span className='item-stats'>
+        <div className='col file-name'>{this.props.name}</div>
+        <div className='col small-info'></div>
+        <div className='col small-info'></div>
+        <div className='col small-info'>Size: {this.props.info.size}</div>
+        <div className='col small-info'>Download Speed: {this.props.info.downloadSpeed}</div>
+        <div className='col'><HttpButtons {...this.props} /> </div>
+      </span>
     );
   }
 };
