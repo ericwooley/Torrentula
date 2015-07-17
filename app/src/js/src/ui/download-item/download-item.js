@@ -50,7 +50,7 @@ class DownloadItem extends Component {
   getTorrentStats() {
     const torrent = this.props.download.torrent;
     return {
-      progress : torrent ? (100 * torrent.downloaded / torrent.parsedTorrent.length).toFixed(1) : 0,
+      progress : (torrent && torrent.parsedTorrent) ? (100 * torrent.downloaded / torrent.parsedTorrent.length).toFixed(1) : 0,
       peers: torrent ? torrent.swarm.wires.length : 0,
       downloadSpeed: torrent ? prettyBytes(torrent.swarm.downloadSpeed()) : 0,
       uploadSpeed: torrent ? prettyBytes(torrent.swarm.uploadSpeed()) : 0,
