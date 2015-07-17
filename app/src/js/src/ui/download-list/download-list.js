@@ -27,6 +27,14 @@ class List extends Component {
   render() {
     return (
 			<div className='list-items'>
+        <span className='headers'>
+          <div className='col file-name'>Name</div>
+          <div className='col small-info'>Size</div>
+          <div className='col small-info'>Peers</div>
+          <div className='col small-info'>Down</div>
+          <div className='col small-info'>Up</div>
+          <div className='col'>Actions</div>
+        </span>
         {this.renderItems()}
       </div>
 		);
@@ -36,10 +44,14 @@ class List extends Component {
 List.prototype.displayName = 'List';
 
 const ListStyle = {
-  backgroundColor: 'rgb(150, 150, 150)',
-  width: '90%',
-  height: '90%'
+  width: '100%',
+  overflow: 'auto',
+  zoom: 1,
+  '.headers': {
+    overflow: 'auto',
+    zoom: 1,
+  }
 };
-ReactInStyle.add(ListStyle, '.list-item');
+ReactInStyle.add(ListStyle, '.list-items');
 
 export default List;

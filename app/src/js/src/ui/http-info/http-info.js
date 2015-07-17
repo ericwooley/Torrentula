@@ -9,10 +9,10 @@ class HttpInfo extends Component {
     return (
       <span className='item-stats'>
         <div className='col file-name'>{this.props.name}</div>
-        <div className='col small-info'></div>
-        <div className='col small-info'></div>
-        <div className='col small-info'>Size: {this.props.info.size}</div>
-        <div className='col small-info'>Download Speed: {this.props.info.downloadSpeed}</div>
+        <div className='col small-info'>{this.props.info.size}</div>
+        <div className='col small-info'>-</div>
+        <div className='col small-info'>{this.props.info.downloadSpeed}</div>
+        <div className='col small-info'>-</div>
         <div className='col'><HttpButtons {...this.props} /> </div>
       </span>
     );

@@ -85,7 +85,7 @@ class DownloadItem extends Component {
           }} />
           {
             this.state.isTorrent ? <TorrentInfo name={this.props.download.name} info={this.state} download={this.props.download} /> :
-            <HttpInfo info={this.state} download={this.props.download} key="httpInfo"/>
+            <HttpInfo name={this.props.download.name} info={this.state} download={this.props.download} key="httpInfo"/>
           }
       </div>
     );
