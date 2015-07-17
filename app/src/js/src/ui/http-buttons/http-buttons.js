@@ -8,7 +8,6 @@ class HttpButtons extends Component {
   render() {
     return (
       <div className='item-buttons'>
-          <button className='button-options' onClick={() => this.props.onExpand}><i className='icon-cog'></i></button>
           {
             this.props.info.completed ?
               <button className='button-download' onClick={() => this.props.download.saveFile()}><i className='icon-down-circled'></i></button> : null

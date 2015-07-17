@@ -39,7 +39,7 @@ $item-second-background-color: $light-grey;
 
   .item-inner {
     margin: 0 auto;
-    width: 920px;
+    width: 930px;
   }
 
   &:nth-child(even) {
@@ -53,11 +53,32 @@ $item-second-background-color: $light-grey;
 
 .headers {
   margin: 15px auto;
-  width: 920px;
+  width: 930px;
   display: block;
   @include clear();
 }
 
 .buttons-col {
   @include clear();
+}
+
+.extra-info {
+  box-sizing: border-box;
+  overflow: hidden;
+  height: 0;
+  display: block;
+  width: 930px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+
+  input {
+    margin: 15px 0;
+  }
+
+  @include transition(height 0.3s ease-out);
+
+  &.showing {
+    height: 50px;
+  }
 }

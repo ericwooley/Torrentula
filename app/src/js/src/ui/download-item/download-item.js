@@ -11,12 +11,13 @@ class DownloadItem extends Component {
 
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      isShowing : false
+    };
   }
 
   //Component lifecycle
   componentDidMount() {
-
     this.startUpdatingStats();
   }
   componentWillUnmount() {
@@ -67,12 +68,10 @@ class DownloadItem extends Component {
     }
   }
 
-  getProgressBarColor() {
-    if (this.state.completed) {
-      return 'rgba(82, 252, 155, 0.43)'
-    } else {
-      return 'rgba(82, 252, 155, 0.18)'
-    }
+  toggleExtraInfoShowing() {
+    this.setState({
+      isShowing: !this.state.isShowing
+    });
   }
 
   render() {
@@ -81,12 +80,16 @@ class DownloadItem extends Component {
       <div className='item'>
         <div className='item-inner'>
           <div className={`progress-bar ${this.state.completed ? "completed" : ""}`} style={{
-              width: this.state.progress + '%',
-              backgroundColor: this.getProgressBarColor()
+              width: this.state.progress + '%'
             }} />
             {
-              this.state.isTorrent ? <TorrentInfo name={this.props.download.name} info={this.state} download={this.props.download} /> :
+              this.state.isTorrent ? <TorrentInfo name={this.props.download.name} info={this.state} download={this.props.download} onExpand={this.toggleExtraInfoShowing.bind(this)}/> :
               <HttpInfo name={this.props.download.name} info={this.state} download={this.props.download} key="httpInfo"/>
+            }
+            { this.state.isTorrent ?
+              <div className={`extra-info ${this.state.isShowing ? "showing" : ""}`}>
+                <label htmlFor='item-hash' className="hash-label">Hash: </label><input name='item-hash' type='text' className='hash-input' value={this.props.download.torrent ? this.props.download.torrent.infoHash : ""} />
+              </div> : null
             }
         </div>
       </div>

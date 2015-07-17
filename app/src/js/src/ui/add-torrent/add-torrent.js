@@ -56,12 +56,6 @@ const Style = {
   position: 'fixed',
   top: '15px',
   right: '15px',
-  input: {
-    width: '100%',
-    borderRadius: '5px',
-    border: 0,
-    padding: '10px'
-  }
 };
 
 ReactInStyle.add(Style, '.add-torrent');
