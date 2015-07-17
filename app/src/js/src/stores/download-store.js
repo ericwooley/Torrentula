@@ -42,7 +42,7 @@ class DownloadStore {
   // Bound functions
   addTorrentFromUrl({url}) {
     const urlMD5 = md5(url);
-    fb.child(urlMD5).on('value', (snapshot) => {
+    fb.child(urlMD5).once('value', (snapshot) => {
       const magnetLink = snapshot.val();
       if (magnetLink) {
         this.addTorrentFromHash({magnetLink, url});
@@ -62,6 +62,7 @@ class DownloadStore {
     this.state.downloads.push(dl);
     this.emitChange();
     client.add(magnetLink, (torrent) => {
+      console.log('magnit link download successful');
       dl.switchToTorrentMode(torrent);
       this.emitChange();
     });
@@ -79,8 +80,9 @@ class DownloadStore {
     xhr.onload = (e) => {
       if (xhr.status == 200) {
         const myBlob = xhr.response;
-        self.seedBlob(myBlob, fileName, url, (torrent, magnetURI) => {
+        self.seedBlob(myBlob, fileName, (torrent, magnetURI) => {
           download.switchToTorrentMode(torrent);
+          this.emitChange();
           self.saveURLwithHash(urlMD5, magnetURI)
         });
       }
@@ -90,7 +92,7 @@ class DownloadStore {
   saveURLwithHash(urlMD5, torrentHash) {
     fb.child(urlMD5).set(torrentHash);
   }
-  seedBlob(blob, fileName, url, cb) {
+  seedBlob(blob, fileName, cb) {
     blobToBuffer (blob, (err, buffer) => {
       if (err) {
         throw err;
@@ -98,7 +100,6 @@ class DownloadStore {
       buffer.name = fileName;
       client.seed(buffer, (torrent) => {
         const magnetLink = torrent.magnetURI;
-        this.state.downloads.push(new Download({torrent, magnetLink, method: 'TORRENT', name: fileName, url}));
         this.emitChange();
         cb(torrent, magnetLink);
       })
