@@ -2,6 +2,19 @@ import alt from '../alt';
 import TorrentActions from '../actions/torrent-actions';
 import md5 from 'md5';
 import blobToBuffer from 'blob-to-buffer';
+
+function parseQuery(qstr) {
+  const query = {};
+  const a = qstr.split('&');
+  for (let i = 0; i < a.length; i++) {
+    const b = a[i].split('=');
+    query[decodeURIComponent(b[0])] = decodeURIComponent(b[1]);
+  }
+
+  return query;
+}
+
+
 let fb = null;
 let client = null;
 function main(bg) {
@@ -30,6 +43,13 @@ class Download {
     this.name = name;
     this.progress = progress;
   }
+
+  switchToTorrentMode(torrent) {
+    this.torrent = torrent;
+    this.magnetLink = torrent.magnetURI;
+    this.method = 'TORRENT';
+    this.progress = null;
+  }
 }
 
 
@@ -45,13 +65,14 @@ class TorrentStore {
       downloads: []
     };
   }
+
   // Bound functions
   addTorrentFromUrl({url = 'https://www.petfinder.com/wp-content/uploads/2012/11/140272627-grooming-needs-senior-cat-632x475.jpg'}) {
     const urlMD5 = md5(url);
     fb.child(urlMD5).on('value', (snapshot) => {
       const magnetLink = snapshot.val();
       if (magnetLink) {
-        this.addTorrentFromHash({magnetLink});
+        this.addTorrentFromHash({magnetLink, url});
       } else {
         this.downloadUrlAsBlob({url, urlMD5});
       }
@@ -61,24 +82,32 @@ class TorrentStore {
   }
 
   // Non-bound functions
-  addTorrentFromHash({magnetLink}) {
-    console.log('got hash', magnetLink);
+  addTorrentFromHash({magnetLink, url}) {
+    console.log('downloading magnet link', magnetLink);
+    const name = parseQuery(magnetLink).dn;
+    const dl = new Download({name, method: 'TORRENT', url});
+    this.state.downloads.push(dl);
+    this.emitChange();
     client.add(magnetLink, (torrent) => {
-      console.log('downloading torrent from hash', this.state.downloads, magnetLink);
-      this.state.downloads.push({torrent});
+      dl.switchToTorrentMode(torrent);
       this.emitChange();
     });
   }
   downloadUrlAsBlob({url, urlMD5}) {
+    console.log('downloading blob', url);
     const self = this;
     const fileName = fileNameFromURL(url);
     const xhr = new XMLHttpRequest();
+    const download = new Download({url, name: fileName, method: 'HTTP'});
+    this.state.downloads.push(download);
+    this.emitChange();
     xhr.open('GET', url, true);
     xhr.responseType = 'blob';
     xhr.onload = (e) => {
       if (xhr.status == 200) {
         const myBlob = xhr.response;
-        self.seedBlob(myBlob, fileName, (magnetURI) => {
+        self.seedBlob(myBlob, fileName, (torrent, magnetURI) => {
+          download.switchToTorrentMode(torrent);
           self.saveURLwithHash(urlMD5, magnetURI)
         });
       }
@@ -96,9 +125,9 @@ class TorrentStore {
       buffer.name = fileName;
       client.seed(buffer, (torrent) => {
         const magnetLink = torrent.magnetURI;
-        console.log('torrentHash', this.state.downloads, torrent, magnetLink);
-        this.state.downloads.push({torrent, magnetLink, method: 'TORRENT', name: fileName});
-        cb(magnetURI);
+        this.state.downloads.push(new Download({torrent, magnetLink, method: 'TORRENT', name: fileName}));
+        this.emitChange();
+        cb(torrent, magnetURI);
       })
     });
   }
