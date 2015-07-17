@@ -109,8 +109,8 @@ class DownloadStats extends Component {
     return (
       <div className='total-stats'>
             <span style={sizeStyle}><i className="icon-tasks" /> {prettyBytes(this.state.loadedSize)} / {prettyBytes(this.state.totalSize)}</span>
-            <span style={dlStyle}><i className="icon-down" /> {prettyBytes(this.state.downloadSpeed)}</span>
-            <span style={dlStyle}><i className="icon-up" /> {prettyBytes(this.state.uploadSpeed)}</span>
+            <span style={dlStyle}><i className="icon-down" /> {prettyBytes(this.state.downloadSpeed)}/s</span>
+            <span style={dlStyle}><i className="icon-up" /> {prettyBytes(this.state.uploadSpeed)}/s</span>
       </div>
     );
   }
