@@ -28,21 +28,48 @@ class Download {
     }
   }
 
-
   startDownloadAsHttp(url, urlMD5, cb) {
     console.log('downloading blob', url);
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.responseType = 'blob';
-    xhr.onload = (e) => {
-      if (xhr.status == 200) {
-        const blob = xhr.response;
+    const headerXhr = new XMLHttpRequest();
+    headerXhr.open('HEAD', url);
+    headerXhr.onreadystatechange = () => {
+      if (headerXhr.readyState === 2) { //Headers recieved
+        this.size = parseInt(headerXhr.getResponseHeader('Content-Length'), 10);
+      }
+    }
+    headerXhr.send();
+
+    const fileXhr = new XMLHttpRequest();
+    fileXhr.open('GET', url, true);
+    fileXhr.responseType = 'blob';
+    fileXhr.onload = (e) => {
+      if (fileXhr.status == 200) {
+        const blob = fileXhr.response;
         cb(blob);
       }
     };
-    xhr.send();
-  }
+    fileXhr.onprogress = e => {
+      if (e.lengthComputable) {
+        const prevProgress = this.progress;
+        const prevTime = this.time;
 
+        this.progress = (e.loaded / e.total) * 100;
+        this.time = Date.now();
+
+        const currentDl = this.progress * this.size;
+        const prevDl = prevProgress * this.size;
+
+        const deltaSize = currentDl - prevDl;
+        const deltaTime = this.time - prevTime;
+
+        this.downloadSpeed = deltaSize / (deltaTime / 1000); //bytes per second
+
+        this.size = e.total;
+
+      }
+    }
+    fileXhr.send();
+  }
 
   saveFile() {
     if (this.method === 'TORRENT' && this.torrent) {

@@ -62,9 +62,9 @@ class DownloadItem extends Component {
   getHttpStats() {
     const download = this.props.download;
     return {
-      size: download.size ? download.size : 0,
+      size: download.size ? prettyBytes(download.size) : 0,
       progress: download.progress ? download.progress : 0,
-      downloadSpeed: download.downloadSpeed ? download.downloadSpeed : 0,
+      downloadSpeed: download.downloadSpeed ? prettyBytes(download.downloadSpeed) + '/s' : 0,
       completed: download.size && download.progress ? (download.progress / download.size) === 1 : false
     }
   }
