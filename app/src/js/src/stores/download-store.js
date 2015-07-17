@@ -54,6 +54,19 @@ class DownloadStore {
     });
   }
 
+  removeDownload(download) {
+    const newDownloads = [];
+    for (let i = 0; i < this.state.downloads.length; i++) {
+      const dl = this.state.downloads[i];
+      if (dl !== download) {
+        newDownloads.push(dl);
+      }
+    }
+    this.state.downloads = newDownloads;
+    this.emitChange();
+
+  }
+
   // Non-bound functions
   addTorrentFromHash({magnetLink, url}) {
     console.log('downloading magnet link', magnetLink);
