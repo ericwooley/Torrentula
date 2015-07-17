@@ -88,7 +88,6 @@ _Server is backed by Firebase which provides CRUD_
     1. Download blob
     2. Migrate to torrent store
 
-
 # Intro to web torrent (so were all on the the same page)
 Torrents are peer to peer file sharing. Someone with a file creates a hash of that file and sends it to others.
 Those others use the hash to find other peers who have that file, request pieces of the file from each of them,

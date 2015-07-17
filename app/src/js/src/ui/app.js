@@ -9,9 +9,18 @@ class App extends Component {
   render() {
     return (
 			<div className="tor-app">
-        <h3>App</h3>
-        <TorrentList />
-        <button onClick={this.addTorrent }>Add torrent</button>
+
+        <div className="header-panel">
+          <h3>Torentilla</h3>
+          <div className="tagline">A delicious torrent wrapper for your file transfers</div>
+        </div>
+
+        <div className="main-panel">
+          <TorrentList />
+        </div>
+
+        <div className="lower-panel">
+        </div>
       </div>
 		);
   }
