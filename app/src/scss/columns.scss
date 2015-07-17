@@ -1,8 +1,8 @@
 .col {
   float: left;
+  padding: 20px 0;
   margin-right: 20px;
-  padding: 10px 0;
-
+  justify-content: center;
   &.file-name {
     padding-left: 10px;
     width: 350px;
@@ -14,7 +14,7 @@
     border-right: #aaa solid 1px;
     margin-right: 10px;
     padding-right: 10px;
-    min-width: 60px;
+    min-width: 80px;
     text-align: center;
   }
 }

@@ -96,20 +96,34 @@ class DownloadStats extends Component {
   }
 
   render() {
+    const sizeStyle = {
+      minWidth: '200px',
+      display: 'inline-block',
+      textAlign: 'center'
+    };
+    const dlStyle = {
+      minWidth: '120px',
+      display: 'inline-block',
+      textAlign: 'center'
+    };
     return (
       <div className='total-stats'>
-          <div className="size">
-            Size: <span className='loaded-size'>{prettyBytes(this.state.loadedSize)}</span> / <span className='total-size'>{prettyBytes(this.state.totalSize)}</span>
-          </div>
-          <div className="speed">
-            <span className='loaded-size'>Down: {prettyBytes(this.state.downloadSpeed)}</span>
-            <span className='loaded-size'>Up: {prettyBytes(this.state.uploadSpeed)}</span>
-          </div>
+            <span style={sizeStyle}><i className="icon-tasks" /> {prettyBytes(this.state.loadedSize)} / {prettyBytes(this.state.totalSize)}</span>
+            <span style={dlStyle}><i className="icon-down" /> {prettyBytes(this.state.downloadSpeed)}</span>
+            <span style={dlStyle}><i className="icon-up" /> {prettyBytes(this.state.uploadSpeed)}</span>
       </div>
     );
   }
 };
 
 DownloadStats.prototype.displayName = 'DownloadStats';
+const style = {
+  width: '100%',
+  position: 'fixed',
+  bottom: 0,
+  margin: '10px'
+
+};
+ReactInStyle.add(style, '.total-stats');
 
 export default DownloadStats;
