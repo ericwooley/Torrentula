@@ -42,7 +42,7 @@ class DownloadStore {
   // Bound functions
   addTorrentFromUrl({url}) {
     const urlMD5 = md5(url);
-    fb.child(urlMD5).on('value', (snapshot) => {
+    fb.child(urlMD5).once('value', (snapshot) => {
       const magnetLink = snapshot.val();
       if (magnetLink) {
         this.addTorrentFromHash({magnetLink, url});

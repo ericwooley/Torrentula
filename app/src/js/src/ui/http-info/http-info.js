@@ -13,7 +13,7 @@ class HttpInfo extends Component {
         </div>
 
         <div className='stats'>
-          <div className='download'>{this.props.download.stats.downloadSpeed}</div>
+          <div className='speed'>{this.props.download.stats.downloadSpeed}</div>
         </div>
 
       </div>
