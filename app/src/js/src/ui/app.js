@@ -4,6 +4,7 @@ import DownloadStats from './download-stats';
 import ReactInStyle from 'react-in-style';
 import AddTorrent from './add-torrent';
 class App extends Component {
+
   render() {
     return (
 			<div className="tor-app">
@@ -18,6 +19,7 @@ class App extends Component {
         </div>
 
         <div className="lower-panel">
+          <DownloadStats />
         </div>
 
         <div className="file-selector">
