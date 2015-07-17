@@ -4,6 +4,12 @@ import md5 from 'md5';
 import blobToBuffer from 'blob-to-buffer';
 import Download from '../models/download';
 
+function stripTrailingSlash(str) {
+  if (str.substr(-1) === '/') {
+    return str.substr(0, str.length - 1);
+  }
+  return str;
+}
 function parseQuery(qstr) {
   const query = {};
   const a = qstr.split('&');
@@ -15,6 +21,7 @@ function parseQuery(qstr) {
   return query;
 }
 
+
 let fb = null;
 let client = null;
 function main(bg) {
@@ -22,14 +29,16 @@ function main(bg) {
   fb = bg.fb;
 }
 function fileNameFromURL(url) {
-  return url.split('\\').pop().split('/').pop();
+  url = stripTrailingSlash(url);
+  return url.split('/').pop();
 }
 
 chrome.runtime.getBackgroundPage(main);
 class DownloadStore {
   constructor() {
     this.bindListeners({
-      addTorrentFromUrl: TorrentActions.addDownload
+      addTorrentFromUrl: TorrentActions.addDownload,
+      clearDownload: TorrentActions.clearDownload
     });
     chrome.runtime.onMessageExternal.addListener((url, sender, sendResponse) => {
       this.addTorrentFromUrl({url});
@@ -38,7 +47,10 @@ class DownloadStore {
       downloads: []
     };
   }
-
+  clearDownload(download) {
+    download.killTorrent();
+    removeDownload(download);
+  }
   // Bound functions
   addTorrentFromUrl({url}) {
     const urlMD5 = md5(url);
