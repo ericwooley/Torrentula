@@ -17,6 +17,7 @@ class TorrentButtons extends Component {
           }
 
           <button className='clear-button' onClick={() => TorrentActions.clearDownload(this.props.download)}>Clear</button>
+          <button className='revert-button' onClick={() => TorrentActions.downloadWithHttp(this.props.download)}>Clear</button>
       </div>
     );
   }

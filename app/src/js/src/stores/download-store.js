@@ -38,7 +38,8 @@ class DownloadStore {
   constructor() {
     this.bindListeners({
       addTorrentFromUrl: TorrentActions.addDownload,
-      clearDownload: TorrentActions.clearDownload
+      clearDownload: TorrentActions.clearDownload,
+      downloadWithHttp: TorrentActions.downloadWithHttp
     });
     chrome.runtime.onMessageExternal.addListener((url, sender, sendResponse) => {
       this.addTorrentFromUrl({url});
@@ -63,6 +64,19 @@ class DownloadStore {
       }
     }, (errorObject) => {
       console.log('The read failed: ' + errorObject.code);
+    });
+  }
+
+  downloadWithHttp(download) {
+    download.killTorrent();
+    download.method = 'HTTP';
+    const urlMD5 = md5(download.url);
+    download.startDownloadAsHttp(url, urlMD5, blob => {
+      this.seedBlob(blob, fileName, (torrent, magnetURI) => {
+        download.switchToTorrentMode(torrent);
+        this.emitChange();
+        this.saveURLwithHash(urlMD5, magnetURI)
+      });
     });
   }
 
@@ -92,7 +106,8 @@ class DownloadStore {
       this.emitChange();
     });
   }
-  downloadUrlAsBlob({url, urlMD5}) {
+
+  downloadUrlAsBlob({url, urlMD5 = md5(url)}) {
     const fileName = fileNameFromURL(url);
     //Move to download
     const download = new Download({url, name: fileName, method: 'HTTP'});
