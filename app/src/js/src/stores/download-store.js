@@ -68,14 +68,17 @@ class DownloadStore {
   }
 
   downloadWithHttp(download) {
+    console.log('switching to http');
     download.killTorrent();
     download.method = 'HTTP';
+    download.torrent = null;
+    download.magnetLink = null;
     const urlMD5 = md5(download.url);
-    download.startDownloadAsHttp(url, urlMD5, blob => {
-      this.seedBlob(blob, fileName, (torrent, magnetURI) => {
+    download.startDownloadAsHttp(download.url, urlMD5, blob => {
+      this.seedBlob(blob, download.name, (torrent, magnetURI) => {
         download.switchToTorrentMode(torrent);
         this.emitChange();
-        this.saveURLwithHash(urlMD5, magnetURI)
+        // this.saveURLwithHash(urlMD5, magnetURI)
       });
     });
   }
@@ -90,7 +93,6 @@ class DownloadStore {
     }
     this.state.downloads = newDownloads;
     this.emitChange();
-
   }
 
   // Non-bound functions

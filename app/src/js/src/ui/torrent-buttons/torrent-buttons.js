@@ -13,11 +13,12 @@ class TorrentButtons extends Component {
       <div className='item-buttons'>
           {
             this.props.info.completed ?
-              <button className='download-button' onClick={() => this.props.download.saveFile() }>Download file</button> : null
+              <button className='download-button' onClick={() => this.props.download.saveFile() }>Download file</button> :
+              <button className='revert-button' onClick={() => TorrentActions.downloadWithHttp(this.props.download)}>Download directly</button>
           }
 
           <button className='clear-button' onClick={() => TorrentActions.clearDownload(this.props.download)}>Clear</button>
-          <button className='revert-button' onClick={() => TorrentActions.downloadWithHttp(this.props.download)}>Clear</button>
+
       </div>
     );
   }
