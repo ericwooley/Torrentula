@@ -39,7 +39,7 @@ $item-second-background-color: $light-grey;
 
   .item-inner {
     margin: 0 auto;
-    width: 880px;
+    width: 920px;
   }
 
   &:nth-child(even) {
@@ -53,7 +53,7 @@ $item-second-background-color: $light-grey;
 
 .headers {
   margin: 15px auto;
-  width: 880px;
+  width: 920px;
   display: block;
   @include clear();
 }

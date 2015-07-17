@@ -7,7 +7,7 @@ window.fb = new Firebase('https://torrentia.firebaseio.com/');
 chrome.app.runtime.onLaunched.addListener(() => {
   chrome.app.window.create('index.html', {
     bounds: {
-      width: 1000,
+      width: 1200,
       height: 800
     }
   });
