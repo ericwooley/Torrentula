@@ -6,7 +6,6 @@ import prettyBytes from 'pretty-bytes';
 
 import TorrentInfo from '../torrent-info'
 import HttpInfo from '../http-info';
-import HttpButtons from '../http-buttons';
 
 class DownloadItem extends Component {
 
@@ -86,8 +85,7 @@ class DownloadItem extends Component {
           }} />
           {
             this.state.isTorrent ? <TorrentInfo name={this.props.download.name} info={this.state} download={this.props.download} /> :
-            [<HttpInfo info={this.state} download={this.props.download} key="httpInfo"/>,
-            <HttpButtons info={this.state} download={this.props.download} key="httpButtons"/>]
+            <HttpInfo info={this.state} download={this.props.download} key="httpInfo"/>
           }
       </div>
     );
@@ -98,15 +96,17 @@ DownloadItem.prototype.displayName = 'DownloadItem';
 
 const ListStyle = {
   backgroundColor: 'rgb(200, 200, 200)',
+  width: '100%',
   position: 'relative',
+  overflow: 'auto',
+  zoom: 1
 };
 
 const progressBarStyle = {
   position: 'absolute',
   top: '0',
   left: '0',
-  height: '100%',
-  zIndex: '1'
+  height: '100%'
 }
 
 const detailsStyle = {
