@@ -59,7 +59,7 @@ class Download {
         this.progress = (e.loaded / e.total) * 100;
         this.time = Date.now();
 
-        const deltaSize = this.progress * this.size;
+        const deltaSize = (this.progress / 100) * this.size;
         const deltaTime = this.time - this.startTime;
 
         this.downloadSpeed = deltaSize / (deltaTime / 1000); //bytes per second
