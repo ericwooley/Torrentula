@@ -54,7 +54,10 @@
 
   <div class="masthead">
     <div class="logo">LOGO</div>
-    <div class="drag">Drag files anywhere to upload.</div>
+    <div class="drag">
+      <input type="file"> <br>
+      Or drag and drop files anywhere to upload.
+    </div>
   </div>
 
   <div class="table-header">

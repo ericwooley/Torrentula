@@ -7,25 +7,32 @@ header {
   left: 0;
   top: 0;
   width: 100%;
-  
   z-index: 100;
 }
 
 .masthead {
-  padding: 30px 0;
+  padding: 30px;
   background: $darkgrey;
+  @include clearfix;
 }
 
 .logo {
-  text-align: center;
   font-size: 20px;
   font-weight: bold;
   text-transform: uppercase;
+  float: left;
 }
 
 .drag {
-  text-align: center;
   color: #fff;
+  float: right;
+  padding: 15px;
+  background: #555;
+  border-radius: 2px;
+
+  input {
+    margin-bottom: 5px;
+  }
 }
 
 .table-header {
