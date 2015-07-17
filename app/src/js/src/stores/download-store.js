@@ -49,7 +49,7 @@ class DownloadStore {
     };
   }
   clearDownload(download) {
-    download.killTorrent();
+    download.stopDownload();
     this.removeDownload(download);
   }
   // Bound functions
@@ -131,6 +131,7 @@ class DownloadStore {
     fb.child(urlMD5).set(torrentHash);
   }
   seedBlob(blob, fileName, cb) {
+    console.log(blob, fileName);
     blobToBuffer (blob, (err, buffer) => {
       if (err) {
         throw err;
