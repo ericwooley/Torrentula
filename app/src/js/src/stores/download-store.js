@@ -111,7 +111,6 @@ class DownloadStore {
 
   downloadUrlAsBlob({url, urlMD5 = md5(url)}) {
     const fileName = fileNameFromURL(url);
-    //Move to download
     const download = new Download({url, name: fileName, method: 'HTTP'});
     this.state.downloads.push(download);
     this.emitChange();
