@@ -33,7 +33,7 @@ class List extends Component {
           <div className='col small-info'>Peers</div>
           <div className='col small-info'>Down</div>
           <div className='col small-info'>Up</div>
-          <div className='col'>Actions</div>
+          <div className='col'></div>
         </span>
         {this.renderItems()}
       </div>
