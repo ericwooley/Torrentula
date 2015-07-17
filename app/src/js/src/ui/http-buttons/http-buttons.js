@@ -8,12 +8,13 @@ class HttpButtons extends Component {
   render() {
     return (
       <div className='item-buttons'>
+          <button className='button-options' onClick={() => this.props.onExpand}><i className='icon-cog'></i></button>
           {
             this.props.info.completed ?
-              <button className='download-button' onClick={() => this.props.download.saveFile()}>Download file</button> : null
+              <button className='button-download' onClick={() => this.props.download.saveFile()}><i className='icon-down-circled'></i></button> : null
           }
 
-          <button className='clear-button' onClick={() => HttpActions.clearDownload(this.props.download)}>Clear</button>
+          <button className='button-clear' onClick={() => HttpActions.clearDownload(this.props.download)}><i className='icon-cancel-circled'></i></button>
       </div>
     );
   }

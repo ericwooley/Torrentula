@@ -11,13 +11,14 @@ class TorrentButtons extends Component {
     // console.log(this.props);
     return (
       <div className='item-buttons'>
+          <button className='button-options' onClick={() => this.props.onExpand}><i className='icon-cog'></i></button>
           {
             this.props.info.completed ?
-              <button className='download-button' onClick={() => this.props.download.saveFile() }>Save file</button> :
-              <button className='revert-button' onClick={() => TorrentActions.downloadWithHttp(this.props.download)}>Download directly</button>
+              <button className='button-download' onClick={() => this.props.download.saveFile() }><i className='icon-down-circled'></i></button> :
+              <button className='button-revert' onClick={() => TorrentActions.downloadWithHttp(this.props.download)}><i className='icon-arrows-cw'></i></button>
           }
 
-          <button className='clear-button' onClick={() => TorrentActions.clearDownload(this.props.download)}>Clear</button>
+          <button className='button-clear' onClick={() => TorrentActions.clearDownload(this.props.download)}><i className='icon-cancel-circled'></i></button>
 
       </div>
     );
