@@ -9,8 +9,8 @@ class TorrentInfo extends Component {
       <div className='item-stats'>
 
         <div className='meta'>
-          <div className='hash'>{this.props.download.hash}</div>
-          <div className='magnet'>{this.props.download.magnetLink}</div>
+          <div className='magnet'>Magnet: {this.props.download.magnetLink}</div>
+          <div className='hash'>Hash: {this.props.download.torrent.infoHash}</div>
         </div>
 
         <div className='stats'>

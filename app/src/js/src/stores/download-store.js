@@ -21,16 +21,16 @@ function parseQuery(qstr) {
   return query;
 }
 
+function fileNameFromURL(url) {
+  url = stripTrailingSlash(url);
+  return url.split('/').pop();
+}
 
 let fb = null;
 let client = null;
 function main(bg) {
   client = bg.client;
   fb = bg.fb;
-}
-function fileNameFromURL(url) {
-  url = stripTrailingSlash(url);
-  return url.split('/').pop();
 }
 
 chrome.runtime.getBackgroundPage(main);
@@ -93,26 +93,18 @@ class DownloadStore {
     });
   }
   downloadUrlAsBlob({url, urlMD5}) {
-    console.log('downloading blob', url);
-    const self = this;
     const fileName = fileNameFromURL(url);
-    const xhr = new XMLHttpRequest();
+    //Move to download
     const download = new Download({url, name: fileName, method: 'HTTP'});
     this.state.downloads.push(download);
-    this.emitChange();
-    xhr.open('GET', url, true);
-    xhr.responseType = 'blob';
-    xhr.onload = (e) => {
-      if (xhr.status == 200) {
-        const myBlob = xhr.response;
-        self.seedBlob(myBlob, fileName, (torrent, magnetURI) => {
-          download.switchToTorrentMode(torrent);
-          this.emitChange();
-          self.saveURLwithHash(urlMD5, magnetURI)
-        });
-      }
-    };
-    xhr.send();
+
+    download.startDownloadAsHttp(url, urlMD5, blob => {
+      this.seedBlob(blob, fileName, (torrent, magnetURI) => {
+        download.switchToTorrentMode(torrent);
+        this.emitChange();
+        this.saveURLwithHash(urlMD5, magnetURI)
+      }.bind(this));
+    }.bind(this));
   }
   saveURLwithHash(urlMD5, torrentHash) {
     fb.child(urlMD5).set(torrentHash);

@@ -28,6 +28,20 @@ class Download {
     }
   }
 
+  startDownloadAsHttp(url, urlMD5, cb) {
+    console.log('downloading blob', url);
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'blob';
+    xhr.onload = (e) => {
+      if (xhr.status == 200) {
+        const blob = xhr.response;
+        cb(blob);
+      }
+    };
+    xhr.send();
+  }
+
   switchToTorrentMode(torrent) {
     this.torrent = torrent;
     this.magnetLink = torrent.magnetURI;
