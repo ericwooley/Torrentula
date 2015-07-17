@@ -27,23 +27,24 @@ class TorrentStore {
   addTorrentFromUrl({url = 'https://www.petfinder.com/wp-content/uploads/2012/11/140272627-grooming-needs-senior-cat-632x475.jpg'}) {
     const urlMD5 = md5(url);
     fb.child(urlMD5).on('value', (snapshot) => {
-      const hashFromServer = snapshot.val();
-      if (hashFromServer) {
-        this.addTorrentFromHash({hashFromServer});
+      const magnetLink = snapshot.val();
+      if (magnetLink) {
+        this.addTorrentFromHash({magnetLink});
       } else {
         this.downloadUrlAsBlob({url, urlMD5});
       }
     }, (errorObject) => {
       console.log('The read failed: ' + errorObject.code);
     });
-
   }
 
-
   // Non-bound functions
-  addTorrentFromHash({hash}) {
-    client.add(hash, (torrent) => {
+  addTorrentFromHash({magnetLink}) {
+    console.log('got hash', magnetLink);
+    client.add(magnetLink, (torrent) => {
+      console.log('downloading torrent from hash', this.state.torrents, magnetLink);
       this.state.torrents.push(torrent);
+      this.emitChange();
     });
   }
   downloadUrlAsBlob({url, urlMD5}) {
@@ -52,11 +53,11 @@ class TorrentStore {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
     xhr.responseType = 'blob';
-    xhr.onload = function(e) {
-      if (this.status == 200) {
-        const myBlob = this.response;
-        self.seedBlob(myBlob, fileName, (torrentHash) => {
-          self.saveURLwithHash(urlMD5, torrentHash)
+    xhr.onload = (e) => {
+      if (xhr.status == 200) {
+        const myBlob = xhr.response;
+        self.seedBlob(myBlob, fileName, (magnetURI) => {
+          self.saveURLwithHash(urlMD5, magnetURI)
         });
       }
     };
@@ -66,16 +67,17 @@ class TorrentStore {
     fb.child(urlMD5).set(torrentHash);
   }
   seedBlob(blob, fileName, cb) {
+
     blobToBuffer (blob, (err, buffer) => {
       if (err) {
         throw err;
       }
       buffer.name = fileName;
       client.seed(buffer, (torrent) => {
-        const torrentHash = torrent.infoHash;
-        console.log('torrentHash', torrent, torrentHash);
+        const {magnetURI} = torrent;
+        console.log('torrentHash', this.state.torrents, torrent, magnetURI);
         this.state.torrents.push(torrent);
-        cb(torrentHash);
+        cb(magnetURI);
       })
     });
   }
