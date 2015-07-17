@@ -23,6 +23,7 @@ class TorrentStore {
       torrents: []
     };
   }
+  // Bound functions
   addTorrentFromUrl({url = 'https://www.petfinder.com/wp-content/uploads/2012/11/140272627-grooming-needs-senior-cat-632x475.jpg'}) {
     const urlMD5 = md5(url);
     fb.child(urlMD5).on('value', (snapshot) => {
@@ -37,6 +38,9 @@ class TorrentStore {
     });
 
   }
+
+
+  // Non-bound functions
   addTorrentFromHash({hash}) {
     client.add(hash, (torrent) => {
       this.state.torrents.push(torrent);
