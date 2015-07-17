@@ -1,5 +1,5 @@
 chrome.contextMenus.create({
-  title: "Download with Torrentia",
+  title: "Download with Torrentula",
   contexts: ["link"],
   onclick : function(e) {
     var laserExtensionId = "jmldnoihkphcnfgofbgfhnhinkpnjfco";

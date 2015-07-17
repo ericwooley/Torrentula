@@ -38,8 +38,7 @@ $item-second-background-color: $light-grey;
   }
 
   .item-inner {
-    margin: 0 auto;
-    width: 930px;
+    padding: 0 15px;
   }
 
   &:nth-child(even) {
@@ -53,7 +52,7 @@ $item-second-background-color: $light-grey;
 
 .headers {
   margin: 15px auto;
-  width: 930px;
+  padding: 0 15px;
   display: block;
   @include clear();
 }
@@ -67,7 +66,7 @@ $item-second-background-color: $light-grey;
   overflow: hidden;
   height: 0;
   display: block;
-  width: 930px;
+  padding: 0 15px;
   margin: 0 auto;
   position: relative;
   z-index: 2;
@@ -79,7 +78,7 @@ $item-second-background-color: $light-grey;
   @include transition(height 0.3s ease-out);
 
   &.showing {
-    height: 50px;
+    height: 60px;
   }
 }
 

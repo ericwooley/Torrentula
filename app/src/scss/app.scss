@@ -8,8 +8,11 @@
 @import 'columns';
 @import 'item';
 @import 'inputs';
+@import 'header';
 
 body {
   overflow: scroll;
-  padding-bottom: 100px;
+  padding-bottom: 20px;
+  font-family: 'ProximaNova';
+  font-size: 16px;
 }
