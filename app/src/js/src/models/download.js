@@ -48,19 +48,19 @@ class Download {
         cb(blob);
       }
     };
+    fileXhr.onreadystatechange = () => {
+      if (fileXhr.readyState === 2) {
+        this.startTime = Date.now();
+      }
+    }
     fileXhr.onprogress = e => {
       if (e.lengthComputable) {
-        const prevProgress = this.progress;
-        const prevTime = this.time;
 
         this.progress = (e.loaded / e.total) * 100;
         this.time = Date.now();
 
-        const currentDl = this.progress * this.size;
-        const prevDl = prevProgress * this.size;
-
-        const deltaSize = currentDl - prevDl;
-        const deltaTime = this.time - prevTime;
+        const deltaSize = this.progress * this.size;
+        const deltaTime = this.time - this.startTime;
 
         this.downloadSpeed = deltaSize / (deltaTime / 1000); //bytes per second
 
