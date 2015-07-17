@@ -121,7 +121,9 @@ const style = {
   width: '100%',
   position: 'fixed',
   bottom: 0,
-  margin: '10px'
+  margin: '10px',
+  zIndex: 3,
+  backgroundColor: 'rgba(255, 255, 255, .8)'
 
 };
 ReactInStyle.add(style, '.total-stats');

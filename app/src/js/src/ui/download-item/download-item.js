@@ -74,6 +74,31 @@ class DownloadItem extends Component {
     });
   }
 
+  toggleVideoPreview() {
+    const {download} = this.props
+    if (!this.state.videoSrc && download.torrent && download.torrent.files[0]) {
+      const torrentFile = download.torrent.files[0];
+      torrentFile.getBlobURL((err, url) => {
+        this.setState({videoSrc: url});
+      });
+    } else {
+      this.setState({videoSrc: null});
+    }
+  }
+
+  toggleImgPreview() {
+    console.log('test');
+    const {download} = this.props
+    if (!this.state.imgSrc && download.torrent && download.torrent.files[0]) {
+      const torrentFile = download.torrent.files[0];
+      torrentFile.getBlobURL((err, url) => {
+        this.setState({imgSrc: url});
+      });
+    } else {
+      this.setState({imgSrc: null});
+    }
+  }
+
   render() {
 
     return (
@@ -83,7 +108,14 @@ class DownloadItem extends Component {
               width: this.state.progress + '%'
             }} />
             {
-              this.state.isTorrent ? <TorrentInfo name={this.props.download.name} info={this.state} download={this.props.download} onExpand={this.toggleExtraInfoShowing.bind(this)}/> :
+              this.state.isTorrent ?
+              <TorrentInfo
+                name={this.props.download.name}
+                info={this.state}
+                download={this.props.download}
+                onExpand={this.toggleExtraInfoShowing.bind(this)}
+                onPreviewVideo={this.toggleVideoPreview.bind(this)}
+                onPreviewImage={this.toggleImgPreview.bind(this)} /> :
               <HttpInfo name={this.props.download.name} info={this.state} download={this.props.download} key="httpInfo"/>
             }
             { this.state.isTorrent ?
@@ -91,6 +123,8 @@ class DownloadItem extends Component {
                 <label htmlFor='item-hash' className="hash-label">Hash: </label><input name='item-hash' type='text' className='hash-input' value={this.props.download.torrent ? this.props.download.torrent.infoHash : ""} />
               </div> : null
             }
+            { this.state.videoSrc ? <video className="preview" src={this.state.videoSrc} controls="true" autoPlay="true"/> : null }
+            { this.state.imgSrc ? <image className="preview" src={this.state.imgSrc} /> : null }
         </div>
       </div>
     );

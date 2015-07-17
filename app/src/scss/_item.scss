@@ -82,3 +82,11 @@ $item-second-background-color: $light-grey;
     height: 50px;
   }
 }
+
+.preview {
+  margin: 30px;
+  max-width: 300px;
+  max-height: 300px;
+  position: relative;
+  z-index: 2;
+}

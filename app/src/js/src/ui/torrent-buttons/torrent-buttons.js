@@ -5,15 +5,22 @@ import TorrentActions from '../../actions/download-actions';
 
 class TorrentButtons extends Component {
 
-
+  renderPreviewButton(fileType) {
+    if (fileType === 'mp4' || fileType === 'webm') {
+      return <button onClick={this.props.onPreviewVideo} className="button-options"><i className='icon-play'></i></button>
+    } else if (fileType === 'jpg' || fileType === 'png') {
+      return <button onClick={this.props.onPreviewImage} className="button-options"><i className='icon-file-image'></i></button>
+    }
+  }
 
   render() {
-    // console.log(this.props);
+    let fileType = null;
+    if (this.props.download.torrent && this.props.download.torrent.files[0]) {
+      fileType = this.props.download.torrent.files[0].name.split('.').pop();
+    }
     return (
       <div className='item-buttons'>
-          <button className='button-options' onClick={() => {
-            this.props.onExpand();
-          }}><i className='icon-cog'></i></button>
+          <button className='button-options' onClick={() => this.props.onExpand()}><i className='icon-cog'></i></button>
           {
             this.props.info.completed ?
               <button className='button-download' onClick={() => this.props.download.saveFile() }><i className='icon-down-circled'></i></button> :
@@ -21,7 +28,7 @@ class TorrentButtons extends Component {
           }
 
           <button className='button-clear' onClick={() => TorrentActions.clearDownload(this.props.download)}><i className='icon-cancel-circled'></i></button>
-
+          {this.renderPreviewButton(fileType)}
       </div>
     );
   }
