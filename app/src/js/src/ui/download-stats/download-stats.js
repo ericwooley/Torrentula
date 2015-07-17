@@ -68,22 +68,29 @@ class DownloadStats extends Component {
     let loadedSize = 0,
       size = 0,
       progress = 0,
-      downloadSpeed = 0;
+      totalSize = 0,
+      downloadSpeed = 0,
+      uploadSpeed = 0;
 
     if (isTorrent) {
-      loadedSize = (torrent.downloaded / torrent.parsedTorrent.length).toFixed(1) * torrent.files[0];
+      if (download.torrent) {
+        loadedSize = (download.torrent.downloaded / download.torrent.parsedTorrent.length).toFixed(1) * download.torrent.files[0];
+        totalSize = download.torrent.files[0].length;
+        downloadSpeed = download.torrent.swarm.downloadSpeed(),
+        uploadSpeed = download.torrent.swarm.uploadSpeed()
+      }
     } else {
       progress = download.progress || 0;
-      size = download.size || 0;
+      totalSize = download.size || 0;
       downloadSpeed = download.downloadSpeed || 0;
-      loadedSize = (progress / 100) * size;
+      loadedSize = (progress / 100) * totalSize;
     }
 
     return {
       loadedSize,
-      totalSize: isTorrent ? torrent.files[0].length : size,
-      downloadSpeed: isTorrent ? torrent.swarm.downloadSpeed() : downloadSpeed,
-      uploadSpeed: isTorrent ? torrent.swarm.uploadSpeed() : 0
+      totalSize,
+      downloadSpeed,
+      uploadSpeed
     };
   }
 
@@ -94,7 +101,7 @@ class DownloadStats extends Component {
             Size: <span className='loaded-size'>{prettyBytes(this.state.loadedSize)}</span> / <span className='total-size'>{prettyBytes(this.state.totalSize)}</span>
           </div>
           <div className="speed">
-            <span className='loaded-size'>Down: {prettyBytes(this.state.downloadSpeed)}</span> 
+            <span className='loaded-size'>Down: {prettyBytes(this.state.downloadSpeed)}</span>
             <span className='loaded-size'>Up: {prettyBytes(this.state.uploadSpeed)}</span>
           </div>
       </div>
