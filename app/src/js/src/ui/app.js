@@ -33,7 +33,7 @@ App.prototype.displayName = 'App';
 
 const AppStyle = {
   '.header-panel': {
-    padding: '30px',
+    padding: '60px',
     background: '#333',
     color: 'rgb(200, 200, 200)'
   },

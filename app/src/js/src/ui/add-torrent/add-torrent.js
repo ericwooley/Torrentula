@@ -38,6 +38,7 @@ class AddTorrent extends Component {
     return (
 			<div className="add-torrent">
         <input type="file" onChange={this.addTorrentFileFromFile} />
+        <p> Or Drop files anywhere to add them.</p>
         <input type="text" placeholder='paste file hash' onChange={this.addTorrentFromHash} />
       </div>
 		);
@@ -54,7 +55,13 @@ const Style = {
   minWidth: '200px',
   position: 'fixed',
   top: '15px',
-  right: '15px'
+  right: '15px',
+  input: {
+    width: '100%',
+    borderRadius: '5px',
+    border: 0,
+    padding: '10px'
+  }
 };
 
 ReactInStyle.add(Style, '.add-torrent');
