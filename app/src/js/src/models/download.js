@@ -37,7 +37,7 @@ class Download {
   }
 
   startCollectingStats() {
-    this.interval = requestAnimationFrame(this.tick);
+    this.interval = requestAnimationFrame(this.tick.bind(this));
   }
 
   stopCollectingStats() {
@@ -45,7 +45,7 @@ class Download {
   }
 
   tick() {
-    requestAnimationFrame(this.tick);
+    requestAnimationFrame(this.tick.bind(this));
     this.updateStats();
   }
 
