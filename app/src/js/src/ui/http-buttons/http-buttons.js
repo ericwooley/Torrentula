@@ -9,7 +9,7 @@ class HttpButtons extends Component {
     return (
       <div className='item-buttons'>
           {
-            this.props.download.stats.completed ?
+            this.props.info.completed ?
               <button className='download-button' onClick={HttpActions.saveDownload(this.props.download)}>Download file</button> : null
           }
 
