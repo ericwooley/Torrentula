@@ -38,6 +38,7 @@ class DownloadStore {
   constructor() {
     this.bindListeners({
       addTorrentFromUrl: DownloadActions.addDownload,
+      addTorrentFromFile: DownloadActions.downloadBlob,
       clearDownload: DownloadActions.clearDownload,
       downloadWithHttp: DownloadActions.downloadWithHttp
     });
@@ -48,11 +49,20 @@ class DownloadStore {
       downloads: []
     };
   }
+  // Bound functions
   clearDownload(download) {
     download.stopDownload();
     this.removeDownload(download);
   }
-  // Bound functions
+  addTorrentFromFile({blobs = []}) {
+    blobs.forEach((blob) => {
+      this.seedBlob(blob, blob.name, (torrent) => {
+        console.log(torrent);
+        this.state.downloads.push(new Download({torrent, name: blob.name, method: 'TORRENT'}));
+        this.emitChange();
+      })
+    });
+  }
   addTorrentFromUrl({url}) {
     const urlMD5 = md5(url);
     fb.child(urlMD5).once('value', (snapshot) => {
@@ -68,18 +78,17 @@ class DownloadStore {
     });
   }
 
-  downloadWithHttp(dl) {
-    const {url} = dl;
+  downloadWithHttp(download) {
+    const {url} = download;
     const fileName = fileNameFromURL(url);
-    dl.killTorrent();
-    this.removeDownload(dl);
-    const download = new Download({url, name: fileName, method: 'HTTP'});
-    this.state.downloads.push(download);
-    this.emitChange();
+    download.stopDownload();
+    download.method = 'HTTP';
+    download.torrent = null;
+    download.magnetLink = null;
     const urlMD5 = md5(download.url);
     download.startDownloadAsHttp(download.url, urlMD5, (blob) => {
       this.seedBlob(blob, download.name, (torrent, magnetURI) => {
-        torrent.on('wire', () =>{
+        torrent.on('wire', () => {
           download.switchToTorrentMode(torrent);
           this.emitChange();
         })
@@ -131,7 +140,6 @@ class DownloadStore {
     fb.child(urlMD5).set(torrentHash);
   }
   seedBlob(blob, fileName, cb) {
-    console.log(blob, fileName);
     blobToBuffer (blob, (err, buffer) => {
       if (err) {
         throw err;

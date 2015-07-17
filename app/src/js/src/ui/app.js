@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import DownloadList from './download-list';
 import DownloadStats from './download-stats';
 import ReactInStyle from 'react-in-style';
-
+import AddTorrent from './add-torrent';
 class App extends Component {
 
   render() {
     return (
 			<div className="tor-app">
-
+        <AddTorrent />
         <div className="header-panel">
           <h3>Torentilla</h3>
           <div className="tagline">A delicious torrent wrapper for your file transfers</div>
