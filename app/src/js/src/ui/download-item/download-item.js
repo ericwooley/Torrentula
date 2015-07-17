@@ -4,8 +4,7 @@ import TorrentActions from '../../actions/download-actions';
 import ReactInStyle from 'react-in-style';
 import prettyBytes from 'pretty-bytes';
 
-import TorrentInfo from '../torrent-info';
-import TorrentButtons from '../torrent-buttons';
+import TorrentInfo from '../torrent-info'
 import HttpInfo from '../http-info';
 import HttpButtons from '../http-buttons';
 
@@ -81,22 +80,15 @@ class DownloadItem extends Component {
 
     return (
       <div className='item'>
-        <div className='progress-bar' style={
-          {
+        <div className='progress-bar' style={{
             width: this.state.progress + '%',
             backgroundColor: this.getProgressBarColor()
-          }
-        } />
-        <div className='download-details'>
-          <div className='name'>{this.props.download.name}</div>
+          }} />
           {
-            this.state.isTorrent ?
-            [<TorrentInfo info={this.state} download={this.props.download} key="torrentInfo"/>,
-            <TorrentButtons info={this.state} download={this.props.download} key="torrentButtons" />] :
+            this.state.isTorrent ? <TorrentInfo name={this.props.download.name} info={this.state} download={this.props.download} /> :
             [<HttpInfo info={this.state} download={this.props.download} key="httpInfo"/>,
             <HttpButtons info={this.state} download={this.props.download} key="httpButtons"/>]
           }
-        </div>
       </div>
     );
   }
