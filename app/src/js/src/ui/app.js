@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import DownloadList from './torrent-list';
+import DownloadList from './download-list';
 import ReactInStyle from 'react-in-style';
 
 class App extends Component {

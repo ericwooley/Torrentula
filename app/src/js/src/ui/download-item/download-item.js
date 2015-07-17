@@ -13,13 +13,13 @@ class DownloadItem extends Component {
 
   //Component lifecycle
   componentDidMount() {
-    this.isTorrent = (this.props.download.method === 'torrent');
+    this.isTorrent = (this.props.download.method === 'TORRENT');
   }
 
   render() {
     return (
-      <div className='item' progress={this.state.progress}>
-        <div className='name'>{this.getName()}</div>
+      <div className='item' progress={this.props.download.progress}>
+        <div className='name'>{this.props.download.name}</div>
         {
           this.isTorrent ?
           [<TorrentInfo download={this.props.download} key="torrentInfo"/>,
@@ -32,7 +32,7 @@ class DownloadItem extends Component {
   }
 };
 
-DownloadItem.prototype.displayName = 'TorrentItem';
+DownloadItem.prototype.displayName = 'DownloadItem';
 
 const ListStyle = {
   backgroundColor: 'rgb(200, 200, 200)',

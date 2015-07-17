@@ -34,7 +34,7 @@ chrome.runtime.getBackgroundPage(main);
 class DownloadStore {
   constructor() {
     this.bindListeners({
-      addTorrentFromUrl: TorrentActions.addTorrent
+      addTorrentFromUrl: TorrentActions.addDownload
     });
 
     this.state = {

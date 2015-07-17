@@ -9,7 +9,7 @@ class HttpButtons extends Component {
     return (
       <div className='item-buttons'>
           {
-            this.props.stats.completed ?
+            this.props.download.stats.completed ?
               <button className='download-button' onClick={HttpActions.saveDownload(this.props.download)}>Download file</button> : null
           }
 
@@ -19,6 +19,6 @@ class HttpButtons extends Component {
   }
 };
 
-TorrentButtons.prototype.displayName = 'TorrentButtons';
+HttpButtons.prototype.displayName = 'HttpButtons';
 
-export default TorrentButtons;
+export default HttpButtons;

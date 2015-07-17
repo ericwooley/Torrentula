@@ -9,15 +9,15 @@ class TorrentInfo extends Component {
       <div className='item-stats'>
 
         <div className='meta'>
-          <div className='hash'>{this.props.meta.hash}</div>
-          <div className='size'>{this.props.meta.size}</div>
-          <div className='magnet'>{this.props.meta.magnet}</div>
+          <div className='hash'>{this.props.download.meta.hash}</div>
+          <div className='magnet'>{this.props.download.meta.magnet}</div>
         </div>
 
         <div className='stats'>
-          <div className='peers'>{this.props.stats.peers}</div>
-          <div className='download'>{this.props.stats.downloadSpeed}</div>
-          <div className='upload'>{this.props.stats.uploadSpeed}</div>
+          <div className='size'>{this.props.download.stats.size}</div>
+          <div className='peers'>{this.props.download.stats.peers}</div>
+          <div className='download'>{this.props.download.stats.downloadSpeed}</div>
+          <div className='upload'>{this.props.download.stats.uploadSpeed}</div>
         </div>
 
       </div>

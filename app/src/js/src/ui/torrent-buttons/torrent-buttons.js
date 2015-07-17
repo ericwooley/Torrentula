@@ -9,11 +9,11 @@ class TorrentButtons extends Component {
     return (
       <div className='item-buttons'>
           {
-            this.props.stats.completed ?
-              <button className='download-button' onClick={TorrentActions.saveTorrent(this.props.torrent)}>Download file</button> : null
+            this.props.download.stats.completed ?
+              <button className='download-button' onClick={TorrentActions.saveTorrent(this.props.download.torrent)}>Download file</button> : null
           }
 
-          <button className='clear-button' onClick={TorrentActions.clearTorrent(this.props.torrent)}>Clear</button>
+          <button className='clear-button' onClick={TorrentActions.clearTorrent(this.props.download.torrent)}>Clear</button>
       </div>
     );
   }

@@ -2,18 +2,18 @@
 import React, { Component } from 'react';
 import ReactInStyle from 'react-in-style';
 
-class TorrentInfo extends Component {
+class HttpInfo extends Component {
 
   render() {
     return (
       <div className='item-stats'>
 
         <div className='meta'>
-          <div className='size'>{this.props.meta.size}</div>
+          <div className='size'>{this.props.download.stats.size}</div>
         </div>
 
         <div className='stats'>
-          <div className='download'>{this.props.stats.downloadSpeed}</div>
+          <div className='download'>{this.props.download.stats.downloadSpeed}</div>
         </div>
 
       </div>
@@ -21,6 +21,6 @@ class TorrentInfo extends Component {
   }
 };
 
-TorrentInfo.prototype.displayName = 'TorrentInfo';
+HttpInfo.prototype.displayName = 'HttpInfo';
 
-export default TorrentInfo;
+export default HttpInfo;
