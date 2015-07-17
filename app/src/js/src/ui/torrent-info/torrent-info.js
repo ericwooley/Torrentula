@@ -20,7 +20,7 @@ class TorrentInfo extends Component {
         <div className='col small-info'>{this.props.info.peers}</div>
         <div className='col small-info'>{this.props.info.downloadSpeed}</div>
         <div className='col small-info'>{this.props.info.uploadSpeed}</div>
-        <div className='col'><TorrentButtons {...this.props} /></div>
+        <div className='col buttons-col'><TorrentButtons {...this.props} /></div>
       </span>
     );
   }

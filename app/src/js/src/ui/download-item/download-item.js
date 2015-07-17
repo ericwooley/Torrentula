@@ -79,14 +79,16 @@ class DownloadItem extends Component {
 
     return (
       <div className='item'>
-        <div className={`progress-bar ${this.state.completed ? "completed" : ""}`} style={{
-            width: this.state.progress + '%',
-            backgroundColor: this.getProgressBarColor()
-          }} />
-          {
-            this.state.isTorrent ? <TorrentInfo name={this.props.download.name} info={this.state} download={this.props.download} /> :
-            <HttpInfo name={this.props.download.name} info={this.state} download={this.props.download} key="httpInfo"/>
-          }
+        <div className='item-inner'>
+          <div className={`progress-bar ${this.state.completed ? "completed" : ""}`} style={{
+              width: this.state.progress + '%',
+              backgroundColor: this.getProgressBarColor()
+            }} />
+            {
+              this.state.isTorrent ? <TorrentInfo name={this.props.download.name} info={this.state} download={this.props.download} /> :
+              <HttpInfo name={this.props.download.name} info={this.state} download={this.props.download} key="httpInfo"/>
+            }
+        </div>
       </div>
     );
   }
@@ -95,7 +97,6 @@ class DownloadItem extends Component {
 DownloadItem.prototype.displayName = 'DownloadItem';
 
 const ListStyle = {
-  backgroundColor: 'rgb(200, 200, 200)',
   width: '100%',
   position: 'relative',
   overflow: 'auto',

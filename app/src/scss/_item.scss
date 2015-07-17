@@ -1,12 +1,20 @@
 $progress-bar-incomplete-color: $transparent-green;
 $progress-bar-complete-color: $translucent-green;
 
+$item-background-color: $white;
+$item-second-background-color: $light-grey;
+
 .item-stats {
   display: block;
   position: relative;
   z-index: 2;
 
   @include clear();
+
+  .small-info, .file-name {
+    position: relative;
+    top: 14px;
+  }
 }
 
 .progress-bar {
@@ -18,4 +26,38 @@ $progress-bar-complete-color: $translucent-green;
   &.completed {
     background-color: $progress-bar-complete-color;
   }
+}
+
+.item {
+  background-color: $item-background-color;
+  padding: 5px 0;
+  @include transition(background-color 0.2s ease-out);
+
+  &:hover {
+      background-color: darken($item-background-color, 7%);
+  }
+
+  .item-inner {
+    margin: 0 auto;
+    width: 880px;
+  }
+
+  &:nth-child(even) {
+    background-color: $item-second-background-color;
+
+    &:hover {
+      background-color: darken($item-second-background-color, 7%);
+    }
+  }
+}
+
+.headers {
+  margin: 15px auto;
+  width: 880px;
+  display: block;
+  @include clear();
+}
+
+.buttons-col {
+  @include clear();
 }
