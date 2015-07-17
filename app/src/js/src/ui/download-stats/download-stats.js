@@ -74,7 +74,7 @@ class DownloadStats extends Component {
 
     if (isTorrent) {
       if (download.torrent) {
-        progress = (download.torrent.downloaded / download.torrent.parsedTorrent.length).toFixed(1) || 0;
+        progress = (download.torrent.downloaded / download.torrent.parsedTorrent.length).toFixed(1) * 100 || 0;
         totalSize = download.torrent.files[0].length || 0;
         downloadSpeed = download.torrent.swarm.downloadSpeed(),
         uploadSpeed = download.torrent.swarm.uploadSpeed()
