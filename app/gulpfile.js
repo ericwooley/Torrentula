@@ -85,7 +85,8 @@ gulp.task('scss', function() {
   gulp.src(conf.scss)
     .pipe(gulpif(!isProd, sourcemaps.init()))
     .pipe(sass({
-      outputStyle: isProd ? 'compressed' : 'nested'
+      outputStyle: isProd ? 'compressed' : 'nested',
+      includePaths: [require('node-bourbon').includePaths]
     }))
     .pipe(postCss([autoprefixer({
       browsers: '> 0.5%'

@@ -54,6 +54,7 @@
     "gulp.spritesmith": "^3.7.0",
     "install": "^0.1.8",
     "md5": "^2.0.0",
+    "node-bourbon": "^4.2.3",
     "npm": "^2.11.3",
     "pretty-bytes": "^2.0.1",
     "react": "^0.13.3",
