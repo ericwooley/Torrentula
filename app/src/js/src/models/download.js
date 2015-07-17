@@ -15,6 +15,8 @@ class Download {
     this.torrent = torrent;
     this.name = name;
     this.progress = progress;
+
+    this.startCollectingStats();
   }
 
   switchToTorrentMode(torrent) {
@@ -22,6 +24,18 @@ class Download {
     this.magnetLink = torrent.magnetURI;
     this.method = 'TORRENT';
     this.progress = null;
+  }
+
+  startCollectingStats() {
+    
+  }
+
+  updateStats() {
+
+  }
+
+  getStats() {
+
   }
 }
 export default Download;

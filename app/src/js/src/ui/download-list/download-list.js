@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import connectToStores from 'alt/utils/connectToStores';
 import TorrentActions from '../../actions/torrent-actions';
 import ReactInStyle from 'react-in-style';
-import TorrentItem from '../torrent-item';
-import TorrentStore from '../../stores/torrent-store';
+import DownloadItem from '../torrent-item';
+import DownloadStore from '../../stores/download-store';
 
 
 @connectToStores
@@ -14,15 +14,15 @@ class List extends Component {
   }
 
   static getStores() {
-    return [TorrentStore];
+    return [DownloadStore];
   }
 
   static getPropsFromStores() {
-    return TorrentStore.getState();
+    return DownloadStore.getState();
   }
 
   renderItems() {
-    return this.props.downloads.map((torrent, index) => <TorrentItem key={`${index}`} />);
+    return this.props.downloads.map((torrent, index) => <DownloadItem key={`${index}`} />);
   }
 
   render() {
