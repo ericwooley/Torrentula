@@ -22,7 +22,7 @@ class List extends Component {
   }
 
   renderItems() {
-    return this.props.downloads.map((torrent, index) => <DownloadItem key={`${index}`} />);
+    return this.props.downloads.map((download, index) => <DownloadItem key={`${index}`} download={download} />);
   }
 
   render() {
