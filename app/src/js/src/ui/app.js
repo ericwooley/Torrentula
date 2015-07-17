@@ -17,8 +17,8 @@ class App extends Component {
 			<div className="tor-app">
         <AddTorrent />
         <div className="header-panel">
-          <h3>LOGO</h3>
-          <div className="tagline">A delicious torrent wrapper for your file transfers</div>
+          <img src="img/icons/icon128.png" />
+          <h3>A delicious torrent wrapper for your file transfers</h3>
         </div>
 
         <div className="main-panel">
