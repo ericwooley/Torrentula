@@ -8,3 +8,8 @@
 @import 'columns';
 @import 'item';
 @import 'inputs';
+
+body {
+  overflow: scroll;
+  padding-bottom: 20px;
+}
