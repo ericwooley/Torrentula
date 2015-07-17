@@ -56,13 +56,14 @@ class Download {
   }
 
   setTorrentStats() {
+    const torrent = this.torrent
     this.stats = {
-      progress : this.torrent ? (100 * this.torrent.downloaded / this.torrent.parsedTorrent.length).toFixed(1) : 0,
-      peers: this.torrent ? torrent.swarm.wires.length : 0,
-      downloadSpeed: this.torrent ? prettyBytes(torrent.swarm.downloadSpeed()) : 0,
-      uploadSpeed: this.torrent ? prettyBytes(torrent.swarm.uploadSpeed()) : 0,
-      completed: this.torrent ? (this.torrent.downloaded / this.torrent.parsedTorrent.length) === 1 : false,
-      size: this.torrent ? prettyBytes(this.props.torrent.files[0]) : 0
+      progress : torrent ? (100 * torrent.downloaded / torrent.parsedTorrent.length).toFixed(1) : 0,
+      peers: torrent ? torrent.swarm.wires.length : 0,
+      downloadSpeed: torrent ? prettyBytes(torrent.swarm.downloadSpeed()) : 0,
+      uploadSpeed: torrent ? prettyBytes(torrent.swarm.uploadSpeed()) : 0,
+      completed: torrent ? (torrent.downloaded / torrent.parsedTorrent.length) === 1 : false,
+      size: torrent ? prettyBytes(torrent.files[0].length) : 0
     }
   }
 }

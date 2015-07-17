@@ -62,6 +62,7 @@ class DownloadStore {
     this.state.downloads.push(dl);
     this.emitChange();
     client.add(magnetLink, (torrent) => {
+      console.log('magnit link download successful');
       dl.switchToTorrentMode(torrent);
       this.emitChange();
     });
@@ -81,6 +82,7 @@ class DownloadStore {
         const myBlob = xhr.response;
         self.seedBlob(myBlob, fileName, (torrent, magnetURI) => {
           download.switchToTorrentMode(torrent);
+          this.emitChange();
           self.saveURLwithHash(urlMD5, magnetURI)
         });
       }
@@ -98,9 +100,8 @@ class DownloadStore {
       buffer.name = fileName;
       client.seed(buffer, (torrent) => {
         const magnetLink = torrent.magnetURI;
-        this.state.downloads.push(new Download({torrent, magnetLink, method: 'TORRENT', name: fileName}));
         this.emitChange();
-        cb(torrent, magnetURI);
+        cb(torrent, magnetLink);
       })
     });
   }
