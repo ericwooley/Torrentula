@@ -8,9 +8,6 @@ class Download {
     if (!method) {
       throw new Error('Method is required');
     }
-    if (!url) {
-      throw new Error('url is required');
-    }
     this.method = method;
     this.url = url;
     this.magnetLink = magnetLink;
