@@ -14,7 +14,6 @@ function parseQuery(qstr) {
   return query;
 }
 
-
 let fb = null;
 let client = null;
 function main(bg) {
@@ -25,24 +24,22 @@ function fileNameFromURL(url) {
   return url.split('\\').pop().split('/').pop();
 }
 
-
-
-
-
 chrome.runtime.getBackgroundPage(main);
 class TorrentStore {
   constructor() {
     this.bindListeners({
       addTorrentFromUrl: TorrentActions.addTorrent
     });
-
+    chrome.runtime.onMessageExternal.addListener((url, sender, sendResponse) => {
+      this.addTorrentFromUrl({url});
+    });
     this.state = {
       downloads: []
     };
   }
 
   // Bound functions
-  addTorrentFromUrl({url = 'https://www.petfinder.com/wp-content/uploads/2012/11/140272627-grooming-needs-senior-cat-632x475.jpg'}) {
+  addTorrentFromUrl({url}) {
     const urlMD5 = md5(url);
     fb.child(urlMD5).on('value', (snapshot) => {
       const magnetLink = snapshot.val();
