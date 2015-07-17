@@ -79,7 +79,7 @@ class DownloadStore {
     xhr.onload = (e) => {
       if (xhr.status == 200) {
         const myBlob = xhr.response;
-        self.seedBlob(myBlob, fileName, (torrent, magnetURI) => {
+        self.seedBlob(myBlob, fileName, url, (torrent, magnetURI) => {
           download.switchToTorrentMode(torrent);
           self.saveURLwithHash(urlMD5, magnetURI)
         });
@@ -90,7 +90,7 @@ class DownloadStore {
   saveURLwithHash(urlMD5, torrentHash) {
     fb.child(urlMD5).set(torrentHash);
   }
-  seedBlob(blob, fileName, cb) {
+  seedBlob(blob, fileName, url, cb) {
     blobToBuffer (blob, (err, buffer) => {
       if (err) {
         throw err;
@@ -98,9 +98,9 @@ class DownloadStore {
       buffer.name = fileName;
       client.seed(buffer, (torrent) => {
         const magnetLink = torrent.magnetURI;
-        this.state.downloads.push(new Download({torrent, magnetLink, method: 'TORRENT', name: fileName}));
+        this.state.downloads.push(new Download({torrent, magnetLink, method: 'TORRENT', name: fileName, url}));
         this.emitChange();
-        cb(torrent, magnetURI);
+        cb(torrent, magnetLink);
       })
     });
   }
