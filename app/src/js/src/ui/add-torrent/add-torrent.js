@@ -55,7 +55,7 @@ const Style = {
   minWidth: '200px',
   position: 'fixed',
   top: '15px',
-  right: '15px',
+  right: '30px',
 };
 
 ReactInStyle.add(Style, '.add-torrent');
