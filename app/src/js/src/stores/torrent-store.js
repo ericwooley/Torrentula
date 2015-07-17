@@ -2,7 +2,7 @@ import alt from '../alt';
 import TorrentActions from '../actions/torrent-actions';
 import md5 from 'md5';
 import blobToBuffer from 'blob-to-buffer';
-
+import Download from '../models/download';
 function parseQuery(qstr) {
   const query = {};
   const a = qstr.split('&');
@@ -25,32 +25,7 @@ function fileNameFromURL(url) {
   return url.split('\\').pop().split('/').pop();
 }
 
-class Download {
-  constructor({method, url, magnetLink, torrent, progress, name}) {
-    if (!name) {
-      throw new Error('Name is required');
-    }
-    if (!method) {
-      throw new Error('Method is required');
-    }
-    if (!url) {
-      throw new Error('url is required');
-    }
-    this.method = method;
-    this.url = url;
-    this.magnetLink = magnetLink;
-    this.torrent = torrent;
-    this.name = name;
-    this.progress = progress;
-  }
 
-  switchToTorrentMode(torrent) {
-    this.torrent = torrent;
-    this.magnetLink = torrent.magnetURI;
-    this.method = 'TORRENT';
-    this.progress = null;
-  }
-}
 
 
 
