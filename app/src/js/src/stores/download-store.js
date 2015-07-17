@@ -3,6 +3,7 @@ import TorrentActions from '../actions/torrent-actions';
 import md5 from 'md5';
 import blobToBuffer from 'blob-to-buffer';
 import Download from '../models/download';
+
 function parseQuery(qstr) {
   const query = {};
   const a = qstr.split('&');
@@ -30,7 +31,7 @@ function fileNameFromURL(url) {
 
 
 chrome.runtime.getBackgroundPage(main);
-class TorrentStore {
+class DownloadStore {
   constructor() {
     this.bindListeners({
       addTorrentFromUrl: TorrentActions.addTorrent
@@ -108,4 +109,4 @@ class TorrentStore {
   }
 }
 
-export default alt.createStore(TorrentStore, 'TorrentStore');
+export default alt.createStore(DownloadStore, 'DownloadStore');

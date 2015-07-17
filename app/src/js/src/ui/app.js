@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import TorrentList from './torrent-list';
-import TorrentActions from '../actions/torrent-actions';
+import DownloadList from './torrent-list';
 import ReactInStyle from 'react-in-style';
+
 class App extends Component {
-  addTorrent() {
-    TorrentActions.addTorrent({test: 'test'});
-  }
   render() {
     return (
 			<div className="tor-app">
@@ -16,7 +13,7 @@ class App extends Component {
         </div>
 
         <div className="main-panel">
-          <TorrentList />
+          <DownloadList />
         </div>
 
         <div className="lower-panel">

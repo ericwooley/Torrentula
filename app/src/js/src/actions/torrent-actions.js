@@ -1,3 +1,3 @@
 import alt from '../alt';
 
-export default alt.generateActions('addTorrent', 'pauseTorrent', 'resumeTorrent', 'clearTorrent');
+export default alt.generateActions('addDownload', 'saveDownload', 'clearDownload');
