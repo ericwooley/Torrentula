@@ -40,8 +40,9 @@ class DownloadStore {
       addTorrentFromUrl: DownloadActions.addDownload,
       addTorrentFromFile: DownloadActions.downloadBlob,
       addTorrentFromHash: DownloadActions.downloadHash,
+      addTorrentFromDragDropFile: DownloadActions.addDragDropDownload,
       clearDownload: DownloadActions.clearDownload,
-      downloadWithHttp: DownloadActions.downloadWithHttp
+      downloadWithHttp: DownloadActions.downloadWithHttp,
     });
     chrome.runtime.onMessageExternal.addListener((url, sender, sendResponse) => {
       this.addTorrentFromUrl({url});
@@ -55,6 +56,20 @@ class DownloadStore {
     download.stopDownload();
     this.removeDownload(download);
   }
+
+  addTorrentFromDragDropFile(files) {
+    const file = files[0];
+
+    client.seed(file, torrent => {
+      this.state.downloads.push(new Download({
+        torrent,
+        name: file[0].name,
+        method: 'TORRENT'
+      }));
+      this.emitChange();
+    });
+  }
+
   addTorrentFromFile({blobs = []}) {
     blobs.forEach((blob) => {
       this.seedBlob(blob, blob.name, (torrent) => {

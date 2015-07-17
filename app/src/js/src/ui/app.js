@@ -3,7 +3,14 @@ import DownloadList from './download-list';
 import DownloadStats from './download-stats';
 import ReactInStyle from 'react-in-style';
 import AddTorrent from './add-torrent';
+import DownloadActions from '../actions/download-actions';
+import dragDrop from 'drag-drop/buffer'
+
 class App extends Component {
+
+  componentDidMount() {
+    dragDrop('body', DownloadActions.addDragDropDownload);
+  }
 
   render() {
     return (
@@ -44,5 +51,7 @@ const AppStyle = {
   padding: 0
 };
 ReactInStyle.add(AppStyle, '.tor-app');
+
+
 
 export default App;

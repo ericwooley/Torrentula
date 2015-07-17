@@ -70,7 +70,7 @@ class DownloadItem extends Component {
   }
 
   getProgressBarColor() {
-    if(this.state.completed) {
+    if (this.state.completed) {
       return 'rgba(82, 252, 155, 0.43)'
     } else {
       return 'rgba(82, 252, 155, 0.18)'

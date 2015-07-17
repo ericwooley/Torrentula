@@ -74,8 +74,8 @@ class DownloadStats extends Component {
 
     if (isTorrent) {
       if (download.torrent) {
-        loadedSize = (download.torrent.downloaded / download.torrent.parsedTorrent.length).toFixed(1) * download.torrent.files[0];
-        totalSize = download.torrent.files[0].length;
+        progress = (download.torrent.downloaded / download.torrent.parsedTorrent.length).toFixed(1) || 0;
+        totalSize = download.torrent.files[0].length || 0;
         downloadSpeed = download.torrent.swarm.downloadSpeed(),
         uploadSpeed = download.torrent.swarm.uploadSpeed()
       }
@@ -83,8 +83,9 @@ class DownloadStats extends Component {
       progress = download.progress || 0;
       totalSize = download.size || 0;
       downloadSpeed = download.downloadSpeed || 0;
-      loadedSize = (progress / 100) * totalSize;
     }
+
+    loadedSize = (progress / 100) * totalSize;
 
     return {
       loadedSize,
