@@ -4,7 +4,9 @@ import TorrentActions from '../../actions/torrent-actions';
 import ReactInStyle from 'react-in-style';
 import prettyBytes from 'pretty-bytes';
 
-class Item extends Component {
+import TorrentInfo from '../torrent-info';
+
+class TorrentItem extends Component {
 
   //Component lifecycle
   componentDidMount() {
@@ -47,7 +49,8 @@ class Item extends Component {
       progress: this.getProgress(),
       peers: this.getPeers(),
       downloadSpeed: this.getDownloadSpeed(),
-      uploadSpeed: this.getUploadSpeed()
+      uploadSpeed: this.getUploadSpeed(),
+      completed: this.getCompleted()
     }
   }
 
@@ -68,7 +71,19 @@ class Item extends Component {
     return prettyBytes(torrent.swarm.downloadSpeed());
   }
 
+  getCompleted() {
+    return (torrent.downloaded / torrent.parsedTorrent.length) === 1;
+  }
+
   //Static getters
+  getMeta() {
+    return {
+      name: this.getName(),
+      size: this.getSize(),
+      infoHash: this.getInfoHash(),
+      magnet: this.getMagnet()
+    }
+  }
   getName() {
     return this.props.torrent.files[0].name;
   }
@@ -81,25 +96,27 @@ class Item extends Component {
     return props.torrent.infoHash;
   }
 
+  getMagnet() {
+    return props.torrent.magnetURI
+  }
+
   render() {
     return (
       <div className='item' progress={this.state.progress}>
         <div className='name'>{this.getName()}</div>
-        <div className='hash'>{this.getInfoHash()}</div>
-        <div className='size'>{this.getFileSize()}</div>
-        <div className='peers'>{this.state.peers}</div>
-        <div className='download'>{this.state.downloadSpeed}</div>
-        <div className='upload'>{this.state.uploadSpeed}</div>
+        <TorrentInfo stats={this.state} meta={this.getMeta()} />
+        <TorrentActions torrent={this.props.torrent} />
       </div>
     );
   }
 };
 
-Item.prototype.displayName = 'Item';
+TorrentItem.prototype.displayName = 'TorrentItem';
 
 const ListStyle = {
   backgroundColor: 'rgb(200, 200, 200)',
 };
+
 ReactInStyle.add(ListStyle, '.item');
 
-export default Item;
+export default TorrentItem;

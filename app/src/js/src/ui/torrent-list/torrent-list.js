@@ -24,9 +24,10 @@ class List extends Component {
   renderItems() {
     return this.props.torrents.map((torrent, index) => <TorrentItem key={`${index}`} torrent={torrent}/>);
   }
+
   render() {
     return (
-			<div className='list-item'>
+			<div className='list-items'>
         {this.renderItems()}
       </div>
 		);
