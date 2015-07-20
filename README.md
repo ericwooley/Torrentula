@@ -20,6 +20,7 @@ the files using webtorrent, if seeders are available for that file.
 * Connection tracking on server
 * Browser crash with URL.revokeObjectURL
 * 500MB/2GB size limits
+* The introduction of this paradigm introduces a significant security risk which I am going to call "hash spoofing". The app depends on a user to download a file and report back the magnet link of the file, so that others can download the file using the hash. However, there is currently nothing from reporting a false magnet link, and causing users to download a malicious file. This is a significant security issue, and needs to be addressed before any mainstream adoption is possible.
 
 # Features
 
